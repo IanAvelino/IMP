@@ -1,0 +1,361 @@
+engine,speaker,id,reference,transcript,parsed,command_correct,latency_s
+whisper-tiny.en,tts_Daniel,1,take off,Take off.,takeoff(altitude_m=1),1,0.156
+whisper-tiny.en,tts_Daniel,2,take off to two metres,Take off to 2 metres.,takeoff(altitude_m=2),1,0.157
+whisper-tiny.en,tts_Daniel,3,launch to one and a half metres,Launch to 1.5 metres.,takeoff(altitude_m=1.5),1,0.167
+whisper-tiny.en,tts_Daniel,4,land,land.,land(),1,0.138
+whisper-tiny.en,tts_Daniel,5,please land the drone,Please land the drone.,land(),1,0.156
+whisper-tiny.en,tts_Daniel,6,hover,Hold back.,"hold() | move(direction=back, distance_m=0.5)",0,0.144
+whisper-tiny.en,tts_Daniel,7,stop,Stop.,hold(),1,0.143
+whisper-tiny.en,tts_Daniel,8,hold position for five seconds,Hold position for 5 seconds.,hold(seconds=5),1,0.156
+whisper-tiny.en,tts_Daniel,9,move forward one metre,Move forward one metre.,"move(direction=forward, distance_m=1)",1,0.156
+whisper-tiny.en,tts_Daniel,10,go back two metres,Go back two metres.,"move(direction=back, distance_m=2)",1,0.151
+whisper-tiny.en,tts_Daniel,11,fly left half a metre,Fly left half a metre.,"move(direction=left, distance_m=0.5)",1,0.170
+whisper-tiny.en,tts_Daniel,12,move right fifty centimetres,Move right 50 centimetres.,"move(direction=right, distance_m=0.5)",1,0.161
+whisper-tiny.en,tts_Daniel,13,go up one metre,Go up one metre.,"move(direction=up, distance_m=1)",1,0.159
+whisper-tiny.en,tts_Daniel,14,descend thirty centimetres,descend 30 centimetres.,"move(direction=down, distance_m=0.3)",1,0.163
+whisper-tiny.en,tts_Daniel,15,climb zero point five metres,Climb 0.5 metres.,"move(direction=up, distance_m=0.5)",1,0.161
+whisper-tiny.en,tts_Daniel,16,move forward,Move forward.,"move(direction=forward, distance_m=0.5)",1,0.144
+whisper-tiny.en,tts_Daniel,17,turn left,Turn left.,rotate(degrees=-90),1,0.157
+whisper-tiny.en,tts_Daniel,18,turn right ninety degrees,Turn right 90 degrees.,rotate(degrees=90),1,0.160
+whisper-tiny.en,tts_Daniel,19,rotate left forty five degrees,Rotate left 45 degrees.,rotate(degrees=-45),1,0.169
+whisper-tiny.en,tts_Daniel,20,turn around,Turn around.,rotate(degrees=180),1,0.147
+whisper-tiny.en,tts_Daniel,21,rotate clockwise thirty degrees,Rotate clockwise 30 degrees.,rotate(degrees=30),1,0.163
+whisper-tiny.en,tts_Daniel,22,take off then move forward one metre then land,Take off then move forward one metre then land.,"takeoff(altitude_m=1) | move(direction=forward, distance_m=1) | land()",1,0.193
+whisper-tiny.en,tts_Daniel,23,"take off, go up half a metre and hover","Take off, go up half a metre and hover.","takeoff(altitude_m=1) | move(direction=up, distance_m=0.5) | hold()",1,0.224
+whisper-tiny.en,tts_Daniel,24,move forward two metres and turn right,Move forward two metres and turn right.,"move(direction=forward, distance_m=2) | rotate(degrees=90)",1,0.173
+whisper-tiny.en,tts_Daniel,25,go left one metre then go right one metre,"Go left one metre, then go right one metre.","move(direction=left, distance_m=1) | move(direction=right, distance_m=1)",1,0.187
+whisper-tiny.en,tts_Daniel,26,"take off to one metre, turn left ninety degrees, move forward one point five metres and land","Take off to 1 metre, turn left 90 degrees, move forward 1.5 metres and land.","takeoff(altitude_m=1) | rotate(degrees=-90) | move(direction=forward, distance_m=1.5) | land()",1,0.222
+whisper-tiny.en,tts_Daniel,27,"drone, could you move back a metre please","Drone, could you move back a metre please?","move(direction=back, distance_m=1)",1,0.183
+whisper-tiny.en,tts_Daniel,28,two metres forward,2 metres forward.,"move(direction=forward, distance_m=2)",1,0.154
+whisper-tiny.en,tts_Daniel,29,what's the weather like today,What's the weather like today?,,1,0.169
+whisper-tiny.en,tts_Daniel,30,hello there,Hello there.,,1,0.143
+whisper-tiny.en,tts_Eddy_English_US,1,take off,Take off.,takeoff(altitude_m=1),1,0.145
+whisper-tiny.en,tts_Eddy_English_US,2,take off to two metres,Take off the two metres.,takeoff(altitude_m=2),1,0.160
+whisper-tiny.en,tts_Eddy_English_US,3,launch to one and a half metres,Launch to one of the app metres.,,0,0.168
+whisper-tiny.en,tts_Eddy_English_US,4,land,land.,land(),1,0.147
+whisper-tiny.en,tts_Eddy_English_US,5,please land the drone,Please land the drone.,land(),1,0.161
+whisper-tiny.en,tts_Eddy_English_US,6,hover,hover.,hold(),1,0.141
+whisper-tiny.en,tts_Eddy_English_US,7,stop,Stop.,hold(),1,0.148
+whisper-tiny.en,tts_Eddy_English_US,8,hold position for five seconds,Hold position for 5 seconds.,hold(seconds=5),1,0.169
+whisper-tiny.en,tts_Eddy_English_US,9,move forward one metre,Move forward 1 metre.,"move(direction=forward, distance_m=1)",1,0.163
+whisper-tiny.en,tts_Eddy_English_US,10,go back two metres,Go back two metres.,"move(direction=back, distance_m=2)",1,0.159
+whisper-tiny.en,tts_Eddy_English_US,11,fly left half a metre,"Fly, lift, app, or metre.",,0,0.176
+whisper-tiny.en,tts_Eddy_English_US,12,move right fifty centimetres,Move right 50 centimetres.,"move(direction=right, distance_m=0.5)",1,0.163
+whisper-tiny.en,tts_Eddy_English_US,13,go up one metre,Go up one metre.,"move(direction=up, distance_m=1)",1,0.160
+whisper-tiny.en,tts_Eddy_English_US,14,descend thirty centimetres,The cent 30 centimetres.,,0,0.165
+whisper-tiny.en,tts_Eddy_English_US,15,climb zero point five metres,Line 0.5 metres.,,0,0.163
+whisper-tiny.en,tts_Eddy_English_US,16,move forward,Move forward.,"move(direction=forward, distance_m=0.5)",1,0.150
+whisper-tiny.en,tts_Eddy_English_US,17,turn left,Turn left.,rotate(degrees=-90),1,0.148
+whisper-tiny.en,tts_Eddy_English_US,18,turn right ninety degrees,turn right 90 degrees.,rotate(degrees=90),1,0.160
+whisper-tiny.en,tts_Eddy_English_US,19,rotate left forty five degrees,"Rotate, left 45 degrees.",rotate(degrees=-45),1,0.168
+whisper-tiny.en,tts_Eddy_English_US,20,turn around,Turn around.,rotate(degrees=180),1,0.149
+whisper-tiny.en,tts_Eddy_English_US,21,rotate clockwise thirty degrees,Rotate clockwise 30 degrees.,rotate(degrees=30),1,0.171
+whisper-tiny.en,tts_Eddy_English_US,22,take off then move forward one metre then land,"Take off, then move forward 1 metre, then land.","takeoff(altitude_m=1) | move(direction=forward, distance_m=1) | land()",1,0.195
+whisper-tiny.en,tts_Eddy_English_US,23,"take off, go up half a metre and hover","Take off, go up, Apple, metre and other.",takeoff(altitude_m=1),0,0.190
+whisper-tiny.en,tts_Eddy_English_US,24,move forward two metres and turn right,Move forward two metres and turn right.,"move(direction=forward, distance_m=2) | rotate(degrees=90)",1,0.180
+whisper-tiny.en,tts_Eddy_English_US,25,go left one metre then go right one metre,"Go, left, one metre, that go right, one metre.","move(direction=left, distance_m=1) | move(direction=right, distance_m=1)",1,0.202
+whisper-tiny.en,tts_Eddy_English_US,26,"take off to one metre, turn left ninety degrees, move forward one point five metres and land","Take off to 1 metre, turn left 90 degrees, move forward 1.5 metres and land.","takeoff(altitude_m=1) | rotate(degrees=-90) | move(direction=forward, distance_m=1.5) | land()",1,0.232
+whisper-tiny.en,tts_Eddy_English_US,27,"drone, could you move back a metre please","Drone, could you move back a metre please?","move(direction=back, distance_m=1)",1,0.188
+whisper-tiny.en,tts_Eddy_English_US,28,two metres forward,Two metres forward.,"move(direction=forward, distance_m=2)",1,0.155
+whisper-tiny.en,tts_Eddy_English_US,29,what's the weather like today,Watch the weather like today.,,1,0.169
+whisper-tiny.en,tts_Eddy_English_US,30,hello there,Hello there.,,1,0.153
+whisper-tiny.en,tts_Flo_English_UK,1,take off,Take off.,takeoff(altitude_m=1),1,0.148
+whisper-tiny.en,tts_Flo_English_UK,2,take off to two metres,Take off the two metres.,takeoff(altitude_m=2),1,0.157
+whisper-tiny.en,tts_Flo_English_UK,3,launch to one and a half metres,I'm going to run it off metres.,,0,0.175
+whisper-tiny.en,tts_Flo_English_UK,4,land,Command.,,0,0.141
+whisper-tiny.en,tts_Flo_English_UK,5,please land the drone,Please land the drone.,land(),1,0.155
+whisper-tiny.en,tts_Flo_English_UK,6,hover,hover.,hold(),1,0.149
+whisper-tiny.en,tts_Flo_English_UK,7,stop,Stop.,hold(),1,0.143
+whisper-tiny.en,tts_Flo_English_UK,8,hold position for five seconds,Hold position for five seconds.,hold(seconds=5),1,0.165
+whisper-tiny.en,tts_Flo_English_UK,9,move forward one metre,Move forward one metre.,"move(direction=forward, distance_m=1)",1,0.161
+whisper-tiny.en,tts_Flo_English_UK,10,go back two metres,Go back through metres.,,0,0.161
+whisper-tiny.en,tts_Flo_English_UK,11,fly left half a metre,Now I lift up a metre.,"move(direction=up, distance_m=1)",0,0.168
+whisper-tiny.en,tts_Flo_English_UK,12,move right fifty centimetres,Move right 50 centimetres.,"move(direction=right, distance_m=0.5)",1,0.174
+whisper-tiny.en,tts_Flo_English_UK,13,go up one metre,Go up one metre.,"move(direction=up, distance_m=1)",1,0.162
+whisper-tiny.en,tts_Flo_English_UK,14,descend thirty centimetres,The cent 30 centimetres.,,0,0.173
+whisper-tiny.en,tts_Flo_English_UK,15,climb zero point five metres,9.0.5 metres.,,0,0.167
+whisper-tiny.en,tts_Flo_English_UK,16,move forward,Move forward.,"move(direction=forward, distance_m=0.5)",1,0.153
+whisper-tiny.en,tts_Flo_English_UK,17,turn left,turn left.,rotate(degrees=-90),1,0.151
+whisper-tiny.en,tts_Flo_English_UK,18,turn right ninety degrees,turn right 19 degrees.,rotate(degrees=19),0,0.162
+whisper-tiny.en,tts_Flo_English_UK,19,rotate left forty five degrees,"Rotate, left, 45 degrees.",rotate(degrees=-45),1,0.176
+whisper-tiny.en,tts_Flo_English_UK,20,turn around,Turn around.,rotate(degrees=180),1,0.151
+whisper-tiny.en,tts_Flo_English_UK,21,rotate clockwise thirty degrees,"Rotate, close by 30 degrees.",rotate(degrees=30),1,0.176
+whisper-tiny.en,tts_Flo_English_UK,22,take off then move forward one metre then land,"Take off, then move forward one metre, then land.","takeoff(altitude_m=1) | move(direction=forward, distance_m=1) | land()",1,0.196
+whisper-tiny.en,tts_Flo_English_UK,23,"take off, go up half a metre and hover","Take off, go up half a metre and forward.","takeoff(altitude_m=1) | move(direction=up, distance_m=0.5) | move(direction=forward, distance_m=0.5)",0,0.193
+whisper-tiny.en,tts_Flo_English_UK,24,move forward two metres and turn right,Move forward two metres and turn right.,"move(direction=forward, distance_m=2) | rotate(degrees=90)",1,0.175
+whisper-tiny.en,tts_Flo_English_UK,25,go left one metre then go right one metre,Go left one metres and go right one metres.,"move(direction=left, distance_m=1) | move(direction=right, distance_m=1)",1,0.187
+whisper-tiny.en,tts_Flo_English_UK,26,"take off to one metre, turn left ninety degrees, move forward one point five metres and land","Take off to 1 metre, turn left 90 degrees, move forward 1.5 metres and land.","takeoff(altitude_m=1) | rotate(degrees=-90) | move(direction=forward, distance_m=1.5) | land()",1,0.226
+whisper-tiny.en,tts_Flo_English_UK,27,"drone, could you move back a metre please","Drone, can you move back or metre please?",,0,0.188
+whisper-tiny.en,tts_Flo_English_UK,28,two metres forward,Two metres forward.,"move(direction=forward, distance_m=2)",1,0.155
+whisper-tiny.en,tts_Flo_English_UK,29,what's the weather like today,Watch the weather like today.,,1,0.166
+whisper-tiny.en,tts_Flo_English_UK,30,hello there,And over there.,,1,0.151
+whisper-base.en,tts_Daniel,1,take off,Take off.,takeoff(altitude_m=1),1,0.288
+whisper-base.en,tts_Daniel,2,take off to two metres,Take off to 2 metres.,takeoff(altitude_m=2),1,0.309
+whisper-base.en,tts_Daniel,3,launch to one and a half metres,Launch to one and a half metres.,takeoff(altitude_m=1.5),1,0.332
+whisper-base.en,tts_Daniel,4,land,land.,land(),1,0.275
+whisper-base.en,tts_Daniel,5,please land the drone,Please land the drone.,land(),1,0.301
+whisper-base.en,tts_Daniel,6,hover,Hover,hold(),1,0.278
+whisper-base.en,tts_Daniel,7,stop,Stop.,hold(),1,0.277
+whisper-base.en,tts_Daniel,8,hold position for five seconds,Hold position for 5 seconds.,hold(seconds=5),1,0.312
+whisper-base.en,tts_Daniel,9,move forward one metre,Move forward 1 metre.,"move(direction=forward, distance_m=1)",1,0.302
+whisper-base.en,tts_Daniel,10,go back two metres,Go back 2 metres.,"move(direction=back, distance_m=2)",1,0.311
+whisper-base.en,tts_Daniel,11,fly left half a metre,Fly left half a metre,"move(direction=left, distance_m=0.5)",1,0.318
+whisper-base.en,tts_Daniel,12,move right fifty centimetres,Move right 50 centimetres.,"move(direction=right, distance_m=0.5)",1,0.319
+whisper-base.en,tts_Daniel,13,go up one metre,go up one metre.,"move(direction=up, distance_m=1)",1,0.311
+whisper-base.en,tts_Daniel,14,descend thirty centimetres,descend 30 centimetres.,"move(direction=down, distance_m=0.3)",1,0.313
+whisper-base.en,tts_Daniel,15,climb zero point five metres,Climb 0.5 metres.,"move(direction=up, distance_m=0.5)",1,0.315
+whisper-base.en,tts_Daniel,16,move forward,Move forward.,"move(direction=forward, distance_m=0.5)",1,0.289
+whisper-base.en,tts_Daniel,17,turn left,Turn left.,rotate(degrees=-90),1,0.289
+whisper-base.en,tts_Daniel,18,turn right ninety degrees,Turn right 90 degrees.,rotate(degrees=90),1,0.306
+whisper-base.en,tts_Daniel,19,rotate left forty five degrees,Rotate left 45 degrees.,rotate(degrees=-45),1,0.315
+whisper-base.en,tts_Daniel,20,turn around,Turn around.,rotate(degrees=180),1,0.290
+whisper-base.en,tts_Daniel,21,rotate clockwise thirty degrees,rotate clockwise 30 degrees.,rotate(degrees=30),1,0.327
+whisper-base.en,tts_Daniel,22,take off then move forward one metre then land,Take off then move forward one metre then land.,"takeoff(altitude_m=1) | move(direction=forward, distance_m=1) | land()",1,0.362
+whisper-base.en,tts_Daniel,23,"take off, go up half a metre and hover","Take off, go up half a metre and hover.","takeoff(altitude_m=1) | move(direction=up, distance_m=0.5) | hold()",1,0.348
+whisper-base.en,tts_Daniel,24,move forward two metres and turn right,Move forward 2 metres and turn right.,"move(direction=forward, distance_m=2) | rotate(degrees=90)",1,0.328
+whisper-base.en,tts_Daniel,25,go left one metre then go right one metre,Go left 1 metre then go right 1 metre.,"move(direction=left, distance_m=1) | move(direction=right, distance_m=1)",1,0.351
+whisper-base.en,tts_Daniel,26,"take off to one metre, turn left ninety degrees, move forward one point five metres and land","take off to one metre, turn left 90 degrees, move forward 1.5 metres and land.","takeoff(altitude_m=1) | rotate(degrees=-90) | move(direction=forward, distance_m=1.5) | land()",1,0.428
+whisper-base.en,tts_Daniel,27,"drone, could you move back a metre please","Drone, could you move back a metre please?","move(direction=back, distance_m=1)",1,0.353
+whisper-base.en,tts_Daniel,28,two metres forward,Two metres forward.,"move(direction=forward, distance_m=2)",1,0.298
+whisper-base.en,tts_Daniel,29,what's the weather like today,What's the weather like today?,,1,0.328
+whisper-base.en,tts_Daniel,30,hello there,Hello there.,,1,0.291
+whisper-base.en,tts_Eddy_English_US,1,take off,Take off.,takeoff(altitude_m=1),1,0.339
+whisper-base.en,tts_Eddy_English_US,2,take off to two metres,Take off the two metres.,takeoff(altitude_m=2),1,0.308
+whisper-base.en,tts_Eddy_English_US,3,launch to one and a half metres,Launch to one of the app metres.,,0,0.339
+whisper-base.en,tts_Eddy_English_US,4,land,Land.,land(),1,0.281
+whisper-base.en,tts_Eddy_English_US,5,please land the drone,Please land the drone.,land(),1,0.303
+whisper-base.en,tts_Eddy_English_US,6,hover,Hover.,hold(),1,2.411
+whisper-base.en,tts_Eddy_English_US,7,stop,Stop.,hold(),1,0.285
+whisper-base.en,tts_Eddy_English_US,8,hold position for five seconds,Hold position for five seconds.,hold(seconds=5),1,0.319
+whisper-base.en,tts_Eddy_English_US,9,move forward one metre,Move forward 1 metre.,"move(direction=forward, distance_m=1)",1,0.315
+whisper-base.en,tts_Eddy_English_US,10,go back two metres,Go back two metres.,"move(direction=back, distance_m=2)",1,0.307
+whisper-base.en,tts_Eddy_English_US,11,fly left half a metre,and fly left half a metre.,"move(direction=left, distance_m=0.5)",1,0.324
+whisper-base.en,tts_Eddy_English_US,12,move right fifty centimetres,Move right 50 centimetres.,"move(direction=right, distance_m=0.5)",1,0.322
+whisper-base.en,tts_Eddy_English_US,13,go up one metre,Go up 1 metre.,"move(direction=up, distance_m=1)",1,0.306
+whisper-base.en,tts_Eddy_English_US,14,descend thirty centimetres,The cent thirty centimetres.,,0,0.337
+whisper-base.en,tts_Eddy_English_US,15,climb zero point five metres,Climb 0.5 metres.,"move(direction=up, distance_m=0.5)",1,0.324
+whisper-base.en,tts_Eddy_English_US,16,move forward,Move forward.,"move(direction=forward, distance_m=0.5)",1,0.293
+whisper-base.en,tts_Eddy_English_US,17,turn left,Turn left.,rotate(degrees=-90),1,0.315
+whisper-base.en,tts_Eddy_English_US,18,turn right ninety degrees,Turn right 90 degrees.,rotate(degrees=90),1,0.315
+whisper-base.en,tts_Eddy_English_US,19,rotate left forty five degrees,Rotate left 45 degrees.,rotate(degrees=-45),1,0.318
+whisper-base.en,tts_Eddy_English_US,20,turn around,Turn the round.,rotate(degrees=90),0,0.307
+whisper-base.en,tts_Eddy_English_US,21,rotate clockwise thirty degrees,rotate clockwise 30 degrees.,rotate(degrees=30),1,0.322
+whisper-base.en,tts_Eddy_English_US,22,take off then move forward one metre then land,"Take off, then move forward 1 metre, then land.","takeoff(altitude_m=1) | move(direction=forward, distance_m=1) | land()",1,0.373
+whisper-base.en,tts_Eddy_English_US,23,"take off, go up half a metre and hover","Take off, go up half a metre and hover.","takeoff(altitude_m=1) | move(direction=up, distance_m=0.5) | hold()",1,0.350
+whisper-base.en,tts_Eddy_English_US,24,move forward two metres and turn right,Move forward two metres and turn right.,"move(direction=forward, distance_m=2) | rotate(degrees=90)",1,0.331
+whisper-base.en,tts_Eddy_English_US,25,go left one metre then go right one metre,"Go left 1 metre, then go right 1 metre.","move(direction=left, distance_m=1) | move(direction=right, distance_m=1)",1,0.362
+whisper-base.en,tts_Eddy_English_US,26,"take off to one metre, turn left ninety degrees, move forward one point five metres and land","Take off to 1 metre, turn left 90 degrees, move forward 1.5 metres and land.","takeoff(altitude_m=1) | rotate(degrees=-90) | move(direction=forward, distance_m=1.5) | land()",1,0.428
+whisper-base.en,tts_Eddy_English_US,27,"drone, could you move back a metre please","Drone, could you move back a metre please?","move(direction=back, distance_m=1)",1,0.359
+whisper-base.en,tts_Eddy_English_US,28,two metres forward,Two metres forward.,"move(direction=forward, distance_m=2)",1,0.298
+whisper-base.en,tts_Eddy_English_US,29,what's the weather like today,And watch the weather like today.,,1,0.337
+whisper-base.en,tts_Eddy_English_US,30,hello there,Hello there.,,1,0.291
+whisper-base.en,tts_Flo_English_UK,1,take off,Take off.,takeoff(altitude_m=1),1,0.314
+whisper-base.en,tts_Flo_English_UK,2,take off to two metres,Take off the two metres.,takeoff(altitude_m=2),1,0.322
+whisper-base.en,tts_Flo_English_UK,3,launch to one and a half metres,Launch to one and a half metres.,takeoff(altitude_m=1.5),1,0.335
+whisper-base.en,tts_Flo_English_UK,4,land,Command.,,0,0.288
+whisper-base.en,tts_Flo_English_UK,5,please land the drone,Please land the drone.,land(),1,0.307
+whisper-base.en,tts_Flo_English_UK,6,hover,Hover.,hold(),1,0.292
+whisper-base.en,tts_Flo_English_UK,7,stop,Stop.,hold(),1,0.283
+whisper-base.en,tts_Flo_English_UK,8,hold position for five seconds,Hold position for five seconds.,hold(seconds=5),1,0.324
+whisper-base.en,tts_Flo_English_UK,9,move forward one metre,Move forward one metre.,"move(direction=forward, distance_m=1)",1,0.316
+whisper-base.en,tts_Flo_English_UK,10,go back two metres,Go back through metres.,,0,0.309
+whisper-base.en,tts_Flo_English_UK,11,fly left half a metre,Fly left half a metre.,"move(direction=left, distance_m=0.5)",1,0.321
+whisper-base.en,tts_Flo_English_UK,12,move right fifty centimetres,Move right 50 centimetres.,"move(direction=right, distance_m=0.5)",1,0.323
+whisper-base.en,tts_Flo_English_UK,13,go up one metre,Go up 1 metre.,"move(direction=up, distance_m=1)",1,0.315
+whisper-base.en,tts_Flo_English_UK,14,descend thirty centimetres,"The cent, 30 centimetres.",,0,0.329
+whisper-base.en,tts_Flo_English_UK,15,climb zero point five metres,9.0.5 metres.,,0,0.319
+whisper-base.en,tts_Flo_English_UK,16,move forward,Move forward.,"move(direction=forward, distance_m=0.5)",1,0.297
+whisper-base.en,tts_Flo_English_UK,17,turn left,Turn left.,rotate(degrees=-90),1,0.296
+whisper-base.en,tts_Flo_English_UK,18,turn right ninety degrees,Turn right 90 degrees.,rotate(degrees=90),1,0.307
+whisper-base.en,tts_Flo_English_UK,19,rotate left forty five degrees,Rotate left 45 degrees.,rotate(degrees=-45),1,0.328
+whisper-base.en,tts_Flo_English_UK,20,turn around,Turn around.,rotate(degrees=180),1,0.303
+whisper-base.en,tts_Flo_English_UK,21,rotate clockwise thirty degrees,Rotate clockwise 30 degrees.,rotate(degrees=30),1,0.331
+whisper-base.en,tts_Flo_English_UK,22,take off then move forward one metre then land,"Take off, then move forward, one metre, then land.","takeoff(altitude_m=1) | move(direction=forward, distance_m=1) | land()",1,0.375
+whisper-base.en,tts_Flo_English_UK,23,"take off, go up half a metre and hover","Take off, go up half a metre and hover.","takeoff(altitude_m=1) | move(direction=up, distance_m=0.5) | hold()",1,0.357
+whisper-base.en,tts_Flo_English_UK,24,move forward two metres and turn right,Move forward two metres and turn right.,"move(direction=forward, distance_m=2) | rotate(degrees=90)",1,0.357
+whisper-base.en,tts_Flo_English_UK,25,go left one metre then go right one metre,Go left 1 metres and go right 1 metres.,"move(direction=left, distance_m=1) | move(direction=right, distance_m=1)",1,0.351
+whisper-base.en,tts_Flo_English_UK,26,"take off to one metre, turn left ninety degrees, move forward one point five metres and land","Take off the 1 metre, turn left 90 degrees, move forward 1.5 metres and land.","takeoff(altitude_m=1) | rotate(degrees=-90) | move(direction=forward, distance_m=1.5) | land()",1,0.432
+whisper-base.en,tts_Flo_English_UK,27,"drone, could you move back a metre please","Drone, can you move back a metre please?","move(direction=back, distance_m=1)",1,0.362
+whisper-base.en,tts_Flo_English_UK,28,two metres forward,Through metres forward.,,0,0.309
+whisper-base.en,tts_Flo_English_UK,29,what's the weather like today,Watch the weather like today.,,1,0.318
+whisper-base.en,tts_Flo_English_UK,30,hello there,Hello there.,,1,0.299
+vosk-grammar,tts_Daniel,1,take off,off,,0,0.013
+vosk-grammar,tts_Daniel,2,take off to two metres,meters,,0,0.019
+vosk-grammar,tts_Daniel,3,launch to one and a half metres,launch to one and half meters,takeoff(altitude_m=1),0,0.022
+vosk-grammar,tts_Daniel,4,land,land,land(),1,0.014
+vosk-grammar,tts_Daniel,5,please land the drone,please land the drone,land(),1,0.019
+vosk-grammar,tts_Daniel,6,hover,hover,hold(),1,0.011
+vosk-grammar,tts_Daniel,7,stop,stop,hold(),1,0.011
+vosk-grammar,tts_Daniel,8,hold position for five seconds,hold position four five seconds,hold(seconds=9),0,0.023
+vosk-grammar,tts_Daniel,9,move forward one metre,move forward one meter,"move(direction=forward, distance_m=1)",1,0.019
+vosk-grammar,tts_Daniel,10,go back two metres,go back two meters,"move(direction=back, distance_m=2)",1,0.018
+vosk-grammar,tts_Daniel,11,fly left half a metre,fly left half meter,"move(direction=left, distance_m=0.5)",1,0.019
+vosk-grammar,tts_Daniel,12,move right fifty centimetres,move right fifty centimeters,"move(direction=right, distance_m=0.5)",1,0.021
+vosk-grammar,tts_Daniel,13,go up one metre,go up one meter,"move(direction=up, distance_m=1)",1,0.016
+vosk-grammar,tts_Daniel,14,descend thirty centimetres,descend thirty centimeters,"move(direction=down, distance_m=0.3)",1,0.021
+vosk-grammar,tts_Daniel,15,climb zero point five metres,climb zero point five meters,"move(direction=up, distance_m=0.5)",1,0.022
+vosk-grammar,tts_Daniel,16,move forward,move forward,"move(direction=forward, distance_m=0.5)",1,0.014
+vosk-grammar,tts_Daniel,17,turn left,turn left,rotate(degrees=-90),1,0.014
+vosk-grammar,tts_Daniel,18,turn right ninety degrees,turn right ninety degrees,rotate(degrees=90),1,0.020
+vosk-grammar,tts_Daniel,19,rotate left forty five degrees,rotate left forty five degrees,rotate(degrees=-45),1,0.024
+vosk-grammar,tts_Daniel,20,turn around,turn around,rotate(degrees=180),1,0.014
+vosk-grammar,tts_Daniel,21,rotate clockwise thirty degrees,rotate clockwise thirty degrees,rotate(degrees=30),1,0.023
+vosk-grammar,tts_Daniel,22,take off then move forward one metre then land,move forward one meter then land,"move(direction=forward, distance_m=1) | land()",0,0.025
+vosk-grammar,tts_Daniel,23,"take off, go up half a metre and hover",off go up half a meter and hover,"move(direction=up, distance_m=0.5) | hold()",0,0.026
+vosk-grammar,tts_Daniel,24,move forward two metres and turn right,move forward two meters and turn right,"move(direction=forward, distance_m=2) | rotate(degrees=90)",1,0.024
+vosk-grammar,tts_Daniel,25,go left one metre then go right one metre,go left one meter then go right one meter,"move(direction=left, distance_m=1) | move(direction=right, distance_m=1)",1,0.024
+vosk-grammar,tts_Daniel,26,"take off to one metre, turn left ninety degrees, move forward one point five metres and land",to one meter turn left ninety degrees move forward one point five meters and land,"rotate(degrees=-90) | move(direction=forward, distance_m=1.5) | land()",0,0.042
+vosk-grammar,tts_Daniel,27,"drone, could you move back a metre please",drone thirty move back a meter please,"move(direction=back, distance_m=30)",0,0.026
+vosk-grammar,tts_Daniel,28,two metres forward,meters forward,,0,0.017
+vosk-grammar,tts_Daniel,29,what's the weather like today,,,1,0.019
+vosk-grammar,tts_Daniel,30,hello there,,,1,0.013
+vosk-grammar,tts_Eddy_English_US,1,take off,take off,takeoff(altitude_m=1),1,0.016
+vosk-grammar,tts_Eddy_English_US,2,take off to two metres,meters,,0,0.022
+vosk-grammar,tts_Eddy_English_US,3,launch to one and a half metres,meters,,0,0.024
+vosk-grammar,tts_Eddy_English_US,4,land,land,land(),1,0.015
+vosk-grammar,tts_Eddy_English_US,5,please land the drone,please land the drone,land(),1,0.021
+vosk-grammar,tts_Eddy_English_US,6,hover,hover,hold(),1,0.014
+vosk-grammar,tts_Eddy_English_US,7,stop,stop,hold(),1,0.014
+vosk-grammar,tts_Eddy_English_US,8,hold position for five seconds,hold position for five seconds,hold(seconds=5),1,0.026
+vosk-grammar,tts_Eddy_English_US,9,move forward one metre,move forward one meter,"move(direction=forward, distance_m=1)",1,0.021
+vosk-grammar,tts_Eddy_English_US,10,go back two metres,go back two meters,"move(direction=back, distance_m=2)",1,0.021
+vosk-grammar,tts_Eddy_English_US,11,fly left half a metre,fly left for meter,"move(direction=left, distance_m=4)",0,0.021
+vosk-grammar,tts_Eddy_English_US,12,move right fifty centimetres,move right fifty centimeters,"move(direction=right, distance_m=0.5)",1,0.024
+vosk-grammar,tts_Eddy_English_US,13,go up one metre,go up one meter,"move(direction=up, distance_m=1)",1,0.019
+vosk-grammar,tts_Eddy_English_US,14,descend thirty centimetres,descend thirty centimeters,"move(direction=down, distance_m=0.3)",1,0.023
+vosk-grammar,tts_Eddy_English_US,15,climb zero point five metres,climb zero point five meters,"move(direction=up, distance_m=0.5)",1,0.026
+vosk-grammar,tts_Eddy_English_US,16,move forward,forward,"move(direction=forward, distance_m=0.5)",1,0.018
+vosk-grammar,tts_Eddy_English_US,17,turn left,left,"move(direction=left, distance_m=0.5)",0,0.017
+vosk-grammar,tts_Eddy_English_US,18,turn right ninety degrees,right ninety degrees,"move(direction=right, distance_m=0.5)",0,0.022
+vosk-grammar,tts_Eddy_English_US,19,rotate left forty five degrees,rotate left forty five degrees,rotate(degrees=-45),1,0.027
+vosk-grammar,tts_Eddy_English_US,20,turn around,around,,0,0.018
+vosk-grammar,tts_Eddy_English_US,21,rotate clockwise thirty degrees,rotate clockwise thirty degrees,rotate(degrees=30),1,0.025
+vosk-grammar,tts_Eddy_English_US,22,take off then move forward one metre then land,up then move forward one meters and land,"move(direction=up, distance_m=0.5) | move(direction=forward, distance_m=1) | land()",0,0.031
+vosk-grammar,tts_Eddy_English_US,23,"take off, go up half a metre and hover",take off go up half meter and hover,"takeoff(altitude_m=1) | move(direction=up, distance_m=0.5) | hold()",1,0.028
+vosk-grammar,tts_Eddy_English_US,24,move forward two metres and turn right,move forward two meters and turn right,"move(direction=forward, distance_m=2) | rotate(degrees=90)",1,0.027
+vosk-grammar,tts_Eddy_English_US,25,go left one metre then go right one metre,go left one meters an go right one meter,"move(direction=left, distance_m=1) | move(direction=right, distance_m=1)",1,0.028
+vosk-grammar,tts_Eddy_English_US,26,"take off to one metre, turn left ninety degrees, move forward one point five metres and land",meter turn left ninety degrees move forward one point five meters land,"move(direction=forward, distance_m=1.5) | land()",0,0.050
+vosk-grammar,tts_Eddy_English_US,27,"drone, could you move back a metre please",drone go move back meter please,,0,0.029
+vosk-grammar,tts_Eddy_English_US,28,two metres forward,meters forwards,,0,0.020
+vosk-grammar,tts_Eddy_English_US,29,what's the weather like today,thirty,,1,0.020
+vosk-grammar,tts_Eddy_English_US,30,hello there,lower,"move(direction=down, distance_m=0.5)",0,0.016
+vosk-grammar,tts_Flo_English_UK,1,take off,come,,0,0.016
+vosk-grammar,tts_Flo_English_UK,2,take off to two metres,meters,,0,0.023
+vosk-grammar,tts_Flo_English_UK,3,launch to one and a half metres,off meters,,0,0.025
+vosk-grammar,tts_Flo_English_UK,4,land,then,,0,0.015
+vosk-grammar,tts_Flo_English_UK,5,please land the drone,please land drone,land(),1,0.022
+vosk-grammar,tts_Flo_English_UK,6,hover,hover,hold(),1,0.014
+vosk-grammar,tts_Flo_English_UK,7,stop,stop,hold(),1,0.014
+vosk-grammar,tts_Flo_English_UK,8,hold position for five seconds,hold position four five seconds,hold(seconds=9),0,0.026
+vosk-grammar,tts_Flo_English_UK,9,move forward one metre,move forward one meter,"move(direction=forward, distance_m=1)",1,0.022
+vosk-grammar,tts_Flo_English_UK,10,go back two metres,go back two meters,"move(direction=back, distance_m=2)",1,0.021
+vosk-grammar,tts_Flo_English_UK,11,fly left half a metre,nine left half meter,"move(direction=left, distance_m=9)",0,0.023
+vosk-grammar,tts_Flo_English_UK,12,move right fifty centimetres,move right fifty centimeters,"move(direction=right, distance_m=0.5)",1,0.025
+vosk-grammar,tts_Flo_English_UK,13,go up one metre,go upward meter,,0,0.020
+vosk-grammar,tts_Flo_English_UK,14,descend thirty centimetres,descend thirty centimeters,"move(direction=down, distance_m=0.3)",1,0.024
+vosk-grammar,tts_Flo_English_UK,15,climb zero point five metres,nine zero point five meters,,0,0.025
+vosk-grammar,tts_Flo_English_UK,16,move forward,forward,"move(direction=forward, distance_m=0.5)",1,0.018
+vosk-grammar,tts_Flo_English_UK,17,turn left,lift,,0,0.017
+vosk-grammar,tts_Flo_English_UK,18,turn right ninety degrees,right ninety degrees,"move(direction=right, distance_m=0.5)",0,0.022
+vosk-grammar,tts_Flo_English_UK,19,rotate left forty five degrees,rotate lift forty five degrees,rotate(degrees=45),0,0.026
+vosk-grammar,tts_Flo_English_UK,20,turn around,around,,0,0.018
+vosk-grammar,tts_Flo_English_UK,21,rotate clockwise thirty degrees,rotate clockwise thirty degrees,rotate(degrees=30),1,0.027
+vosk-grammar,tts_Flo_English_UK,22,take off then move forward one metre then land,upward move forward one meter then land,"move(direction=up, distance_m=0.5) | move(direction=forward, distance_m=1) | land()",0,0.031
+vosk-grammar,tts_Flo_English_UK,23,"take off, go up half a metre and hover",up go up half meter and forward,"move(direction=up, distance_m=0.5) | move(direction=up, distance_m=0.5) | move(direction=forward, distance_m=0.5)",0,0.029
+vosk-grammar,tts_Flo_English_UK,24,move forward two metres and turn right,move forward two meters an right,"move(direction=forward, distance_m=2) | move(direction=right, distance_m=0.5)",0,0.027
+vosk-grammar,tts_Flo_English_UK,25,go left one metre then go right one metre,go left one meter then go right one meters,"move(direction=left, distance_m=1) | move(direction=right, distance_m=1)",1,0.028
+vosk-grammar,tts_Flo_English_UK,26,"take off to one metre, turn left ninety degrees, move forward one point five metres and land",meter turn lift ninety degrees move forward one point five meters land,"move(direction=forward, distance_m=1.5) | land()",0,0.052
+vosk-grammar,tts_Flo_English_UK,27,"drone, could you move back a metre please",drone quarter move back go meter please,"move(direction=back, distance_m=0.25)",0,0.029
+vosk-grammar,tts_Flo_English_UK,28,two metres forward,meters forwards,,0,0.020
+vosk-grammar,tts_Flo_English_UK,29,what's the weather like today,thirty,,1,0.021
+vosk-grammar,tts_Flo_English_UK,30,hello there,,,1,0.016
+vosk-free,tts_Daniel,1,take off,the golf,,0,0.222
+vosk-free,tts_Daniel,2,take off to two metres,there you go to blue meters,,0,0.368
+vosk-free,tts_Daniel,3,launch to one and a half metres,launched to one and a half meters,,0,0.330
+vosk-free,tts_Daniel,4,land,land,land(),1,0.231
+vosk-free,tts_Daniel,5,please land the drone,these learned the drone,,0,0.306
+vosk-free,tts_Daniel,6,hover,over,,0,0.185
+vosk-free,tts_Daniel,7,stop,stop,hold(),1,0.166
+vosk-free,tts_Daniel,8,hold position for five seconds,hold position for five seconds,hold(seconds=5),1,0.343
+vosk-free,tts_Daniel,9,move forward one metre,move forward one meter,"move(direction=forward, distance_m=1)",1,0.321
+vosk-free,tts_Daniel,10,go back two metres,go back to meters,"move(direction=back, distance_m=2)",1,0.321
+vosk-free,tts_Daniel,11,fly left half a metre,fly left half a meter,"move(direction=left, distance_m=0.5)",1,0.346
+vosk-free,tts_Daniel,12,move right fifty centimetres,move right fifty centimeters,"move(direction=right, distance_m=0.5)",1,0.379
+vosk-free,tts_Daniel,13,go up one metre,go up one meter,"move(direction=up, distance_m=1)",1,0.271
+vosk-free,tts_Daniel,14,descend thirty centimetres,this and thirty centimeters,,0,0.364
+vosk-free,tts_Daniel,15,climb zero point five metres,climb zero point five meters,"move(direction=up, distance_m=0.5)",1,0.408
+vosk-free,tts_Daniel,16,move forward,move forward,"move(direction=forward, distance_m=0.5)",1,0.268
+vosk-free,tts_Daniel,17,turn left,the left,"move(direction=left, distance_m=0.5)",0,0.269
+vosk-free,tts_Daniel,18,turn right ninety degrees,then right ninety degrees,"move(direction=right, distance_m=0.5)",0,0.344
+vosk-free,tts_Daniel,19,rotate left forty five degrees,rotate left forty five degrees,rotate(degrees=-45),1,0.386
+vosk-free,tts_Daniel,20,turn around,the around,,0,0.277
+vosk-free,tts_Daniel,21,rotate clockwise thirty degrees,rotate clockwise thirty degrees,rotate(degrees=30),1,0.332
+vosk-free,tts_Daniel,22,take off then move forward one metre then land,there you go for then move forward one meter then land,"move(direction=forward, distance_m=1) | land()",0,0.490
+vosk-free,tts_Daniel,23,"take off, go up half a metre and hover",the golf go up half a meter and hava,"move(direction=up, distance_m=0.5)",0,0.418
+vosk-free,tts_Daniel,24,move forward two metres and turn right,move forward to meters and turn right,"move(direction=forward, distance_m=2) | rotate(degrees=90)",1,0.391
+vosk-free,tts_Daniel,25,go left one metre then go right one metre,go left one meter then go right one meter,"move(direction=left, distance_m=1) | move(direction=right, distance_m=1)",1,0.395
+vosk-free,tts_Daniel,26,"take off to one metre, turn left ninety degrees, move forward one point five metres and land",there you go to one meter turn left ninety degrees move forward one point five meters and land,"rotate(degrees=-90) | move(direction=forward, distance_m=1.5) | land()",0,0.654
+vosk-free,tts_Daniel,27,"drone, could you move back a metre please",drone could you move back a meter please,"move(direction=back, distance_m=1)",1,0.399
+vosk-free,tts_Daniel,28,two metres forward,two meters forward,"move(direction=forward, distance_m=2)",1,0.270
+vosk-free,tts_Daniel,29,what's the weather like today,what's the weather like today,,1,0.355
+vosk-free,tts_Daniel,30,hello there,hello there,,1,0.230
+vosk-free,tts_Eddy_English_US,1,take off,a cop,,0,0.206
+vosk-free,tts_Eddy_English_US,2,take off to two metres,a up the two meters,"move(direction=up, distance_m=2)",0,0.454
+vosk-free,tts_Eddy_English_US,3,launch to one and a half metres,launched the one that the app meters,,0,0.447
+vosk-free,tts_Eddy_English_US,4,land,man,,0,0.198
+vosk-free,tts_Eddy_English_US,5,please land the drone,these lab the drone,,0,0.374
+vosk-free,tts_Eddy_English_US,6,hover,however,,0,0.246
+vosk-free,tts_Eddy_English_US,7,stop,stop,hold(),1,0.254
+vosk-free,tts_Eddy_English_US,8,hold position for five seconds,hold position for five seconds,hold(seconds=5),1,0.420
+vosk-free,tts_Eddy_English_US,9,move forward one metre,the move forward one meter,"move(direction=forward, distance_m=1)",1,0.361
+vosk-free,tts_Eddy_English_US,10,go back two metres,go back to meters,"move(direction=back, distance_m=2)",1,0.357
+vosk-free,tts_Eddy_English_US,11,fly left half a metre,fly left for meter,"move(direction=left, distance_m=4)",0,0.358
+vosk-free,tts_Eddy_English_US,12,move right fifty centimetres,right fifty centimeters,"move(direction=right, distance_m=0.5)",1,0.446
+vosk-free,tts_Eddy_English_US,13,go up one metre,go up one meter,"move(direction=up, distance_m=1)",1,0.319
+vosk-free,tts_Eddy_English_US,14,descend thirty centimetres,the said thirty centimeters,,0,0.363
+vosk-free,tts_Eddy_English_US,15,climb zero point five metres,lima zero point five meters,,0,0.416
+vosk-free,tts_Eddy_English_US,16,move forward,the move forward,"move(direction=forward, distance_m=0.5)",1,0.340
+vosk-free,tts_Eddy_English_US,17,turn left,left,"move(direction=left, distance_m=0.5)",0,0.246
+vosk-free,tts_Eddy_English_US,18,turn right ninety degrees,right ninety degrees,"move(direction=right, distance_m=0.5)",0,0.388
+vosk-free,tts_Eddy_English_US,19,rotate left forty five degrees,rotate left forty five degrees,rotate(degrees=-45),1,0.432
+vosk-free,tts_Eddy_English_US,20,turn around,around,,0,0.293
+vosk-free,tts_Eddy_English_US,21,rotate clockwise thirty degrees,rotate clockwise thirty degrees,rotate(degrees=30),1,0.444
+vosk-free,tts_Eddy_English_US,22,take off then move forward one metre then land,a cop that move forward what meters and land,land(),0,0.508
+vosk-free,tts_Eddy_English_US,23,"take off, go up half a metre and hover",a gop go up at for meter and over,"move(direction=up, distance_m=4)",0,0.425
+vosk-free,tts_Eddy_English_US,24,move forward two metres and turn right,the move forward to meters and term right,"move(direction=forward, distance_m=2) | move(direction=right, distance_m=0.5)",0,0.473
+vosk-free,tts_Eddy_English_US,25,go left one metre then go right one metre,go left one meter that go right one meter,"move(direction=left, distance_m=1) | move(direction=right, distance_m=1)",1,0.417
+vosk-free,tts_Eddy_English_US,26,"take off to one metre, turn left ninety degrees, move forward one point five metres and land",up to one meter turn left ninety degrees move forward was point five meters and land,"move(direction=up, distance_m=1) | rotate(degrees=-90) | move(direction=forward, distance_m=5) | land()",0,0.740
+vosk-free,tts_Eddy_English_US,27,"drone, could you move back a metre please",don't go near move back a meter please,"move(direction=back, distance_m=1)",0,0.536
+vosk-free,tts_Eddy_English_US,28,two metres forward,meters forward,,0,0.340
+vosk-free,tts_Eddy_English_US,29,what's the weather like today,what's the weather like the day,,1,0.353
+vosk-free,tts_Eddy_English_US,30,hello there,hello there,,1,0.282
+vosk-free,tts_Flo_English_UK,1,take off,cop,,0,0.219
+vosk-free,tts_Flo_English_UK,2,take off to two metres,come through meters,,0,0.423
+vosk-free,tts_Flo_English_UK,3,launch to one and a half metres,to one that the death of meters,,0,0.553
+vosk-free,tts_Flo_English_UK,4,land,then,,0,0.174
+vosk-free,tts_Flo_English_UK,5,please land the drone,we learned the throne,,0,0.415
+vosk-free,tts_Flo_English_UK,6,hover,over,,0,0.256
+vosk-free,tts_Flo_English_UK,7,stop,stop,hold(),1,0.213
+vosk-free,tts_Flo_English_UK,8,hold position for five seconds,hold position for five seconds,hold(seconds=5),1,0.354
+vosk-free,tts_Flo_English_UK,9,move forward one metre,the whole with want me to,,0,0.392
+vosk-free,tts_Flo_English_UK,10,go back two metres,go back to meters,"move(direction=back, distance_m=2)",1,0.294
+vosk-free,tts_Flo_English_UK,11,fly left half a metre,my laptop or meters,,0,0.394
+vosk-free,tts_Flo_English_UK,12,move right fifty centimetres,right fifty centimeters,"move(direction=right, distance_m=0.5)",1,0.420
+vosk-free,tts_Flo_English_UK,13,go up one metre,go up one meter,"move(direction=up, distance_m=1)",1,0.328
+vosk-free,tts_Flo_English_UK,14,descend thirty centimetres,the said thirty centimeters,,0,0.398
+vosk-free,tts_Flo_English_UK,15,climb zero point five metres,nine zero point five meters,,0,0.442
+vosk-free,tts_Flo_English_UK,16,move forward,move forward,"move(direction=forward, distance_m=0.5)",1,0.274
+vosk-free,tts_Flo_English_UK,17,turn left,rep,,0,0.226
+vosk-free,tts_Flo_English_UK,18,turn right ninety degrees,right ninety degrees,"move(direction=right, distance_m=0.5)",0,0.470
+vosk-free,tts_Flo_English_UK,19,rotate left forty five degrees,left forty five degrees,"move(direction=left, distance_m=0.5)",0,0.513
+vosk-free,tts_Flo_English_UK,20,turn around,hang around,,0,0.224
+vosk-free,tts_Flo_English_UK,21,rotate clockwise thirty degrees,rotate what was thirty degrees,rotate(degrees=30),1,0.498
+vosk-free,tts_Flo_English_UK,22,take off then move forward one metre then land,cop then move for with want me to then lab,,0,0.553
+vosk-free,tts_Flo_English_UK,23,"take off, go up half a metre and hover",cop go up for me to and over,"move(direction=up, distance_m=0.5)",0,0.461
+vosk-free,tts_Flo_English_UK,24,move forward two metres and turn right,move forward to meters and right,"move(direction=forward, distance_m=2) | move(direction=right, distance_m=0.5)",0,0.418
+vosk-free,tts_Flo_English_UK,25,go left one metre then go right one metre,go left want me to that go right one meter,"move(direction=left, distance_m=0.5) | move(direction=right, distance_m=1)",0,0.579
+vosk-free,tts_Flo_English_UK,26,"take off to one metre, turn left ninety degrees, move forward one point five metres and land",a one way to turn left ninety degrees move for with one point five meters of land,rotate(degrees=-1) | land(),0,0.828
+vosk-free,tts_Flo_English_UK,27,"drone, could you move back a metre please",from career move back me little please,"move(direction=back, distance_m=0.5)",0,0.556
+vosk-free,tts_Flo_English_UK,28,two metres forward,meters forward,,0,0.355
+vosk-free,tts_Flo_English_UK,29,what's the weather like today,what's the weather like to day,,1,0.347
+vosk-free,tts_Flo_English_UK,30,hello there,hello there,,1,0.249
