@@ -2,6 +2,7 @@
 
   python -m nlp_drone.run --sitl --text "take off then move forward one metre then land"
   python -m nlp_drone.run --sitl --mic                  # push-to-talk loop, Whisper by default
+  python -m nlp_drone.run --sitl --mic --viewer         # ...and watch it in the live 3D viewer
   python -m nlp_drone.run --wav clip.wav --dry-run      # transcribe + parse + check only
   python -m nlp_drone.run --connect udp:<bridge-ip>:<port> --mic   # real drone via the ESP32 bridge (check DroneBridge settings)
 """
@@ -53,6 +54,9 @@ def main():
     ap.add_argument("--connect", default=None, help="MAVLink connection string for a real/remote vehicle")
     ap.add_argument("--dry-run", action="store_true", help="do not connect to any vehicle")
     ap.add_argument("--yes", action="store_true", help="skip the confirmation prompt on a real vehicle")
+    ap.add_argument("--viewer", action="store_true", help="open the live 3D viewer in your browser")
+    ap.add_argument("--viewer-connect", default=None,
+                    help="second MAVLink link for the viewer (default with --sitl: tcp:127.0.0.1:5762)")
     args = ap.parse_args()
 
     model = stt.make(args.engine) if (args.wav or args.mic) else None
@@ -66,14 +70,28 @@ def main():
                 print(f"SITL started (log: {log})")
             drone = Drone(conn or sim.CONNECTION)
             print(f"connected: mode {drone.mode}, armed {drone.armed}")
+        viewer = None
+        if args.viewer:
+            vconn = args.viewer_connect or ("tcp:127.0.0.1:5762" if args.sitl else None)
+            if vconn is None:
+                print("viewer: pass --viewer-connect <second MAVLink link> for a non-simulated vehicle")
+            else:
+                from .viewer import Viewer
+                viewer = Viewer(vconn)
+                print(f"3D viewer: {viewer.start()}")
         real = drone is not None and not args.sitl
+
+        def log(msg):
+            print(msg)
+            if viewer:
+                viewer.publish(msg)
 
         def one(text):
             if real and not args.yes:
                 r = parse(text)
                 if input(f"  send {[str(c) for c in r.commands]} to the REAL drone? [y/N] ").lower() != "y":
                     print("  cancelled"); return
-            handle(text, drone)
+            handle(text, drone, log=log)
 
         if args.text:
             one(args.text)
