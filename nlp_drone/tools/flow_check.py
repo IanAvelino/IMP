@@ -26,8 +26,12 @@ def main():
     for msg_id in (ML.MAVLINK_MSG_ID_LOCAL_POSITION_NED, ML.MAVLINK_MSG_ID_DISTANCE_SENSOR,
                    ML.MAVLINK_MSG_ID_OPTICAL_FLOW, ML.MAVLINK_MSG_ID_EKF_STATUS_REPORT, ML.MAVLINK_MSG_ID_ATTITUDE):
         m.mav.command_long_send(m.target_system, m.target_component, ML.MAV_CMD_SET_MESSAGE_INTERVAL,
-                                0, msg_id, 200_000, 0, 0, 0, 0, 0)
-    s = {"x": None, "y": None, "yaw": 0.0, "range": None, "q": None, "rel": False, "texts": []}
+                                0, msg_id, 50_000, 0, 0, 0, 0, 0)
+    # of_fwd/of_right: distance integrated straight from the flow readings (flow rate x height), so the
+    # sensor's direction can be judged even when the EKF rejects the data. EKF sign convention: forward
+    # speed = +comp_y * range, right speed = -comp_x * range (AP_NavEKF3 writeOptFlowMeas/FuseOptFlow).
+    s = {"x": None, "y": None, "yaw": 0.0, "range": None, "q": None, "rel": False, "texts": [],
+         "of_fwd": 0.0, "of_right": 0.0, "of_t": None}
 
     def pump(seconds):
         end = time.time() + seconds
@@ -44,6 +48,12 @@ def main():
                 s["range"] = msg.current_distance / 100
             elif t == "OPTICAL_FLOW":
                 s["q"] = msg.quality
+                now = time.time()
+                if s["of_t"] is not None and s["range"]:
+                    dt = min(now - s["of_t"], 0.2)
+                    s["of_fwd"] += msg.flow_comp_m_y * s["range"] * dt
+                    s["of_right"] += -msg.flow_comp_m_x * s["range"] * dt
+                s["of_t"] = now
             elif t == "EKF_STATUS_REPORT":
                 s["rel"] = bool(msg.flags & (ML.EKF_POS_HORIZ_REL | ML.EKF_PRED_POS_HORIZ_REL))
             elif t == "STATUSTEXT":
@@ -58,7 +68,8 @@ def main():
     for label, seconds in PHASES:
         print(f"\n>>> {label}  ({seconds} s)")
         x0, y0 = s["x"], s["y"]
-        best = {"fwd": 0.0, "right": 0.0, "range": [], "q": [], "rel": []}
+        of0 = (s["of_fwd"], s["of_right"])
+        best = {"fwd": 0.0, "right": 0.0, "of_fwd": 0.0, "of_right": 0.0, "range": [], "q": [], "rel": []}
         for _ in range(seconds):
             pump(1)
             if None not in (x0, s["x"]):
@@ -70,9 +81,13 @@ def main():
                         best[k] = v
             else:
                 fwd = right = float("nan")
+            for k, v in (("of_fwd", s["of_fwd"] - of0[0]), ("of_right", s["of_right"] - of0[1])):
+                if abs(v) > abs(best[k]):
+                    best[k] = v
             best["range"].append(s["range"]); best["q"].append(s["q"]); best["rel"].append(s["rel"])
             print(f"   range {s['range'] if s['range'] is not None else '-':>5} m | flow quality {s['q'] if s['q'] is not None else '-':>3}"
-                  f" | EKF flow position {'yes' if s['rel'] else 'no '} | forward {fwd:+.2f} m  right {right:+.2f} m")
+                  f" | EKF flow position {'yes' if s['rel'] else 'no '} | EKF fwd {fwd:+.2f} right {right:+.2f}"
+                  f" | flow-only fwd {s['of_fwd'] - of0[0]:+.2f} right {s['of_right'] - of0[1]:+.2f} m")
         results.append((label, best))
 
     print("\n=== summary ===")
@@ -85,9 +100,14 @@ def main():
     fwd_move, right_move = results[1][1], results[2][1]
     print(f"forward phase      : largest forward {fwd_move['fwd']:+.2f} m, sideways {fwd_move['right']:+.2f} m")
     print(f"right phase        : largest right   {right_move['right']:+.2f} m, forward/back {right_move['fwd']:+.2f} m")
+    print(f"flow-only, forward : forward {fwd_move['of_fwd']:+.2f} m, sideways {fwd_move['of_right']:+.2f} m")
+    print(f"flow-only, right   : right   {right_move['of_right']:+.2f} m, forward/back {right_move['of_fwd']:+.2f} m")
     ok_fwd = fwd_move["fwd"] > 0.15 and abs(fwd_move["fwd"]) > 2 * abs(fwd_move["right"])
     ok_right = right_move["right"] > 0.15 and abs(right_move["right"]) > 2 * abs(right_move["fwd"])
-    print(f"ORIENTATION        : {'OK' if ok_fwd and ok_right else 'CHECK - see the numbers above'}")
+    of_fwd_ok = fwd_move["of_fwd"] > 0.15 and abs(fwd_move["of_fwd"]) > 2 * abs(fwd_move["of_right"])
+    of_right_ok = right_move["of_right"] > 0.15 and abs(right_move["of_right"]) > 2 * abs(right_move["of_fwd"])
+    print(f"ORIENTATION (EKF)  : {'OK' if ok_fwd and ok_right else 'CHECK - see the numbers above'}")
+    print(f"ORIENTATION (flow) : {'OK' if of_fwd_ok and of_right_ok else 'CHECK - see the numbers above'}")
     m.close()
     return 0
 

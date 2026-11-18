@@ -2,13 +2,20 @@
 # optical flow, link-loss and battery failsafes. The "real" block is what goes on the flight
 # controller; the "SITL only" block swaps the MTF-01 for ArduPilot's simulated flow + rangefinder.
 
-# --- real: no radio receiver ---
-ARMING_SKIPCHK 64
+# --- real: no radio receiver (64), and no SD card so skip the logging check (1024) ---
+ARMING_SKIPCHK 1088
 FS_THR_ENABLE 0
 # --- real: land if the laptop's heartbeat stops for 3 s, in every mode ---
 FS_GCS_ENABLE 5
 FS_GCS_TIMEOUT 3
 FS_OPTIONS 0
+# --- real: altitude ceiling for untethered indoor tests; crossing 1.5 m makes it land ---
+FENCE_ENABLE 1
+FENCE_TYPE 1
+FENCE_ALT_MAX 1.5
+FENCE_ACTION 2
+FENCE_ALT_MAX_TP 2
+AVOID_ENABLE 0
 # --- real: no compass, no GPS; EKF3 position from optical flow, height from the barometer ---
 COMPASS_ENABLE 0
 GPS1_TYPE 0

@@ -7,11 +7,15 @@
   python -m nlp_drone.run --connect udp:<bridge-ip>:<port> --mic   # real drone via the ESP32 bridge (check DroneBridge settings)
 """
 import argparse
+import signal
 import time
+from pathlib import Path
 
 from . import sim, stt
 from .parser import parse
 from .validator import validate, State
+
+FLIGHTS = Path(__file__).resolve().parent.parent / "flights"     # telemetry logs of real flights
 
 
 def handle(text, drone, log=print):
@@ -70,6 +74,13 @@ def main():
                 print(f"SITL started (log: {log})")
             drone = Drone(conn or sim.CONNECTION)
             print(f"connected: mode {drone.mode}, armed {drone.armed}")
+            if not args.sitl:
+                # the FC has no SD card, so record the flight here: everything received, as a .tlog
+                # (opens in Mission Planner / MAVExplorer)
+                FLIGHTS.mkdir(exist_ok=True)
+                tlog = FLIGHTS / time.strftime("%Y%m%d-%H%M%S.tlog")
+                drone.m.setup_logfile(str(tlog))
+                print(f"telemetry log: {tlog}")
         viewer = None
         if args.viewer:
             vconn = args.viewer_connect or ("tcp:127.0.0.1:5762" if args.sitl else None)
@@ -80,6 +91,14 @@ def main():
                 viewer = Viewer(vconn)
                 print(f"3D viewer: {viewer.start()}")
         real = drone is not None and not args.sitl
+        if drone is not None:
+            # Emergency stop on the program's own link (a second WiFi connection proved unreliable):
+            # Ctrl+\ force-disarms at once. Ctrl+C still means "hold, then the failsafe lands it".
+            def emergency_stop(signum, frame):
+                drone.kill()
+                print("\n  EMERGENCY STOP: motors disarmed")
+            signal.signal(signal.SIGQUIT, emergency_stop)
+            print("  Ctrl+C = hold position and land | Ctrl+\\ = EMERGENCY motor stop")
 
         def log(msg):
             print(msg)
