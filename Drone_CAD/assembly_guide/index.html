@@ -1,0 +1,634 @@
+<title>Synthara Remix Build Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: bench build sheet. Sticky step index on the left (desktop), numbered work cards on the right, diagrams up front. */
+:root{
+  --paper:#f4f6f3; --card:#ffffff; --ink:#1b2320; --muted:#5a6560; --rule:#d3d9d4;
+  --accent:#1e6a4e; --accent-soft:#e0ede6;
+  --warn:#9a4f08; --warn-soft:#fbf0de; --danger:#b42318; --danger-soft:#fdecea;
+  --pwr:#c62828; --gnd:#3a403d; --sigA:#1f5fbf; --sigB:#8a3fb5; --cw:#1e6a4e; --ccw:#8a3fb5;
+  --frame:#c7d0ca; --prop:#9aa69f;
+  --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#111614; --card:#18201c; --ink:#e3e9e5; --muted:#9aa6a0; --rule:#2b3531;
+  --accent:#79bf9f; --accent-soft:#1a2e26;
+  --warn:#f0ad62; --warn-soft:#2f2412; --danger:#ff7b6e; --danger-soft:#341916;
+  --pwr:#ff6f6f; --gnd:#c4ccc7; --sigA:#76a9ff; --sigB:#cc94f2; --cw:#79bf9f; --ccw:#cc94f2;
+  --frame:#33403a; --prop:#5d6b64; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --paper:#111614; --card:#18201c; --ink:#e3e9e5; --muted:#9aa6a0; --rule:#2b3531;
+  --accent:#79bf9f; --accent-soft:#1a2e26;
+  --warn:#f0ad62; --warn-soft:#2f2412; --danger:#ff7b6e; --danger-soft:#341916;
+  --pwr:#ff6f6f; --gnd:#c4ccc7; --sigA:#76a9ff; --sigB:#cc94f2; --cw:#79bf9f; --ccw:#cc94f2;
+  --frame:#33403a; --prop:#5d6b64; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16px/1.6 var(--f-body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15}
+code,.mono{font-family:var(--f-mono);font-size:.88em}
+
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 64px}
+
+/* header */
+.top{display:grid;gap:14px;padding-bottom:22px;border-bottom:1px solid var(--rule)}
+.eyebrow{font:600 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:clamp(30px,5vw,46px);font-weight:800;font-stretch:80%;letter-spacing:-.01em}
+.lede{max-width:66ch;color:var(--muted);margin:0}
+.specs{display:flex;flex-wrap:wrap;gap:6px 18px;font:13px/1.4 var(--f-mono);color:var(--muted)}
+.specs b{color:var(--ink);font-weight:600}
+
+.progress{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);padding-block:10px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--rule)}
+.bar{flex:1;height:8px;border-radius:4px;background:var(--rule);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+.progress span{font:600 13px/1 var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.btn{font:600 13px/1 var(--f-body);color:var(--ink);background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:8px 12px;cursor:pointer}
+.btn:hover{border-color:var(--muted)}
+.btn.armed{border-color:var(--danger);color:var(--danger);background:var(--danger-soft)}
+
+.layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:40px;margin-top:28px}
+@media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}.rail{display:none}}
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 64px);align-self:start;font-size:14px}
+.rail ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.rail a{display:grid;grid-template-columns:24px 1fr auto;gap:8px;align-items:baseline;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--ink)}
+.rail a:hover{background:var(--accent-soft)}
+.rail .n{font:600 12px var(--f-mono);color:var(--muted)}
+.rail .c{font:12px var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.rail a.done .c{color:var(--accent);font-weight:600}
+.rail .sep{margin:10px 8px 4px;font:600 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+main{display:grid;gap:44px;min-width:0}
+section{scroll-margin-top:72px;min-width:0}
+.sec-h{display:flex;align-items:baseline;gap:14px;margin-bottom:14px}
+.sec-h .num{font:800 15px/1 var(--f-mono);color:var(--accent);min-width:2.2em}
+.sec-h h2{font-size:clamp(22px,3vw,28px);font-weight:750;font-stretch:85%}
+.sec-h .where{margin-left:auto;font:12px var(--f-mono);color:var(--muted);white-space:nowrap}
+.body{display:grid;gap:14px;max-width:72ch}
+.body p{margin:0}
+
+/* silkscreen pad chips */
+.pad{display:inline-block;font:600 12.5px/1.35 var(--f-mono);padding:0 5px;border:1px solid var(--muted);border-radius:3px;white-space:nowrap}
+.pad.p{border-color:var(--pwr);color:var(--pwr)}
+.pad.t{border-color:var(--sigA);color:var(--sigA)}
+.pad.r{border-color:var(--sigB);color:var(--sigB)}
+
+/* checklist */
+.check{list-style:none;margin:0;padding:0;display:grid;border-top:1px solid var(--rule)}
+.check li{border-bottom:1px solid var(--rule)}
+.check label{display:grid;grid-template-columns:22px minmax(0,1fr);gap:12px;padding:11px 2px;cursor:pointer}
+.check input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--accent);cursor:pointer}
+.check input:checked + span{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--rule);text-decoration-thickness:2px}
+.check small{display:block;color:var(--muted);font-size:14px;margin-top:2px}
+
+.note{border-radius:8px;padding:12px 14px;font-size:15px}
+.note b.tag{display:block;font:600 11px/1.6 var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
+.note.verify{background:var(--warn-soft);border:1px dashed var(--warn)}
+.note.verify b.tag{color:var(--warn)}
+.note.stop{background:var(--danger-soft);border:1px solid var(--danger)}
+.note.stop b.tag{color:var(--danger)}
+.note.tip{background:var(--accent-soft)}
+.note.tip b.tag{color:var(--accent)}
+
+.kit{display:flex;flex-wrap:wrap;gap:6px}
+.kit span{font-size:13.5px;padding:3px 9px;border-radius:999px;background:var(--card);border:1px solid var(--rule)}
+
+/* diagrams */
+.figs{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:20px}
+@media (max-width:1050px){.figs{grid-template-columns:minmax(0,1fr)}}
+figure{margin:0;background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:14px;min-width:0}
+figcaption{font-size:14px;color:var(--muted);margin-top:8px}
+figcaption b{color:var(--ink)}
+.scroll{overflow-x:auto}
+svg text{font-family:var(--f-mono);fill:var(--ink)}
+svg .mut{fill:var(--muted)}
+svg .ttl{font-family:var(--f-display);font-weight:700;font-size:15px}
+svg .s11{font-size:11px} svg .s12{font-size:12px} svg .s13{font-size:13px}
+svg .box{fill:var(--paper);stroke:var(--ink);stroke-width:1.5}
+svg .wPwr{stroke:var(--pwr);stroke-width:2.5;fill:none}
+svg .wGnd{stroke:var(--gnd);stroke-width:2.5;fill:none}
+svg .wA{stroke:var(--sigA);stroke-width:2.5;fill:none}
+svg .wB{stroke:var(--sigB);stroke-width:2.5;fill:none}
+svg .wBus{stroke:var(--muted);stroke-width:2;fill:none}
+svg .dot{fill:var(--ink)}
+svg .arm{stroke:var(--frame);stroke-width:12;stroke-linecap:round;fill:none}
+svg .bodyf{fill:var(--frame)}
+svg .propc{fill:none;stroke:var(--prop);stroke-width:1.2;stroke-dasharray:4 4}
+svg .motor{fill:var(--card);stroke:var(--ink);stroke-width:1.5}
+svg .cwA{stroke:var(--cw);stroke-width:3;fill:none} svg .cwH{fill:var(--cw)}
+svg .ccwA{stroke:var(--ccw);stroke-width:3;fill:none} svg .ccwH{fill:var(--ccw)}
+svg .acc{fill:var(--accent)}
+svg .part{fill:var(--card);stroke:var(--ink);stroke-width:1.2}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:18px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+
+.render{display:grid;grid-template-columns:minmax(0,280px) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:640px){.render{grid-template-columns:minmax(0,1fr)}}
+.render img{border-radius:8px;border:1px solid var(--rule);background:#fff;width:100%;height:auto}
+
+/* open questions */
+.open{list-style:none;margin:0;padding:0;display:grid;gap:8px;max-width:72ch}
+.open li{display:grid;grid-template-columns:110px minmax(0,1fr);gap:12px;font-size:15px;padding-bottom:8px;border-bottom:1px dashed var(--rule)}
+.open li b{font:600 12px/1.9 var(--f-mono);color:var(--warn)}
+@media (max-width:520px){.open li{grid-template-columns:minmax(0,1fr);gap:0}}
+
+/* weight log */
+.tbl{overflow-x:auto;background:var(--card);border:1px solid var(--rule);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:460px;font-size:15px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--rule)}
+th{font:600 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+td.g,th.g{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+td input{width:84px;font:15px var(--f-mono);text-align:right;padding:5px 7px;border:1px solid var(--rule);border-radius:5px;background:var(--paper);color:var(--ink)}
+tfoot td{font-weight:700;border-bottom:0}
+.verdict{display:inline-block;font:600 12px/1 var(--f-mono);padding:5px 8px;border-radius:4px;background:var(--accent-soft);color:var(--accent)}
+.verdict.bad{background:var(--danger-soft);color:var(--danger)}
+
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--rule);font-size:14px;color:var(--muted);max-width:72ch}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">6FTC2062 · NLP drone · bench build</div>
+    <h1>Synthara Remix Build Guide</h1>
+    <p class="lede">Step-by-step assembly of the sub-250 g voice-controlled quad, from bare print to props on. Tick items as you go; your ticks and weights stay in this browser. Props stay off until step 12.</p>
+    <div class="specs">
+      <span>Frame <b>Synthara remix, guarded</b></span>
+      <span>Stack <b>SpeedyBee F405 V4 · BLS 60A</b></span>
+      <span>Motors <b>LANNRC 1404 3800KV</b></span>
+      <span>Props <b>Gemfan 3016</b></span>
+      <span>Sensors <b>MTF-01 → UART3</b></span>
+      <span>Link <b>ESP32 DroneBridge → UART1</b></span>
+      <span>Pack <b>3S 450 mAh XT30</b></span>
+    </div>
+  </header>
+
+  <div class="progress" aria-live="polite">
+    <div class="bar" aria-hidden="true"><i id="barFill"></i></div>
+    <span id="progText">0 / 0 done</span>
+    <button class="btn" id="resetBtn" type="button">Clear ticks</button>
+  </div>
+
+  <div class="layout">
+    <nav class="rail" aria-label="Steps">
+      <ol id="rail">
+        <li><a href="#glance"><span class="n">··</span><span>At a glance</span><span></span></a></li>
+      </ol>
+    </nav>
+
+    <main>
+      <!-- AT A GLANCE -->
+      <section id="glance">
+        <div class="sec-h"><span class="num">··</span><h2>At a glance</h2></div>
+        <div class="figs">
+          <figure>
+            <div class="scroll">
+            <svg viewBox="0 0 520 450" width="100%" role="img" aria-labelledby="mmT" style="min-width:320px">
+              <title id="mmT">Motor map, top view, front at the top</title>
+              <path class="acc" d="M260 12 l11 15 h-7 v12 h-8 v-12 h-7 z"/>
+              <text x="260" y="58" text-anchor="middle" class="s12">FRONT</text>
+              <line class="arm" x1="260" y1="235" x2="150" y2="125"/>
+              <line class="arm" x1="260" y1="235" x2="370" y2="125"/>
+              <line class="arm" x1="260" y1="235" x2="150" y2="345"/>
+              <line class="arm" x1="260" y1="235" x2="370" y2="345"/>
+              <rect class="bodyf" x="222" y="182" width="76" height="108" rx="12"/>
+              <circle class="propc" cx="150" cy="125" r="52"/>
+              <circle class="propc" cx="370" cy="125" r="52"/>
+              <circle class="propc" cx="150" cy="345" r="52"/>
+              <circle class="propc" cx="370" cy="345" r="52"/>
+              <rect class="part" x="244" y="158" width="32" height="24" rx="4"/>
+              <text x="260" y="150" text-anchor="middle" class="s11 mut">MTF-01</text>
+              <rect class="part" x="237" y="212" width="46" height="46" rx="4"/>
+              <path class="acc" d="M260 218 l7 9 h-4 v10 h-6 v-10 h-4 z"/>
+              <text x="260" y="252" text-anchor="middle" class="s11">FC</text>
+              <rect class="part" x="233" y="294" width="54" height="26" rx="3"/>
+              <text x="260" y="311" text-anchor="middle" class="s11">ESP32</text>
+              <text x="260" y="338" text-anchor="middle" class="s11 mut">antenna → rear</text>
+
+              <g transform="translate(150 125)"><circle class="motor" r="14"/><path class="cwA" d="M-21.2 -21.2 A30 30 0 0 1 21.2 -21.2"/><polygon class="cwH" points="27.5,-15 17.6,-17.6 24.7,-24.7"/></g>
+              <g transform="translate(370 125)"><circle class="motor" r="14"/><path class="ccwA" d="M21.2 -21.2 A30 30 0 0 0 -21.2 -21.2"/><polygon class="ccwH" points="-27.5,-15 -17.6,-17.6 -24.7,-24.7"/></g>
+              <g transform="translate(150 345)"><circle class="motor" r="14"/><path class="ccwA" d="M21.2 -21.2 A30 30 0 0 0 -21.2 -21.2"/><polygon class="ccwH" points="-27.5,-15 -17.6,-17.6 -24.7,-24.7"/></g>
+              <g transform="translate(370 345)"><circle class="motor" r="14"/><path class="cwA" d="M-21.2 -21.2 A30 30 0 0 1 21.2 -21.2"/><polygon class="cwH" points="27.5,-15 17.6,-17.6 24.7,-24.7"/></g>
+              <text x="150" y="129" text-anchor="middle" class="s12">4</text>
+              <text x="370" y="129" text-anchor="middle" class="s12">2</text>
+              <text x="150" y="349" text-anchor="middle" class="s12">3</text>
+              <text x="370" y="349" text-anchor="middle" class="s12">1</text>
+
+              <text x="150" y="196" text-anchor="middle" class="s12">M4 front-left</text>
+              <text x="150" y="211" text-anchor="middle" class="s11 mut">CW · test D</text>
+              <text x="370" y="196" text-anchor="middle" class="s12">M2 front-right</text>
+              <text x="370" y="211" text-anchor="middle" class="s11 mut">CCW · test A</text>
+              <text x="150" y="268" text-anchor="middle" class="s12">M3 rear-left</text>
+              <text x="150" y="283" text-anchor="middle" class="s11 mut">CCW · test C</text>
+              <text x="370" y="268" text-anchor="middle" class="s12">M1 rear-right</text>
+              <text x="370" y="283" text-anchor="middle" class="s11 mut">CW · test B</text>
+              <text x="260" y="428" text-anchor="middle" class="s12">REAR · XT30 lead exits here</text>
+            </svg>
+            </div>
+            <figcaption><b>Motor map, viewed from above.</b> ArduPilot <code>FRAME_TYPE = 12</code> (BetaFlightX). Motor test letters go clockwise from front-right. The ESC's power pads face the rear.</figcaption>
+          </figure>
+
+          <figure>
+            <div class="scroll">
+            <svg viewBox="0 0 760 440" width="100%" role="img" aria-labelledby="wdT" style="min-width:600px">
+              <title id="wdT">Wiring diagram: battery to ESC, ESC to FC, FC to MTF-01 on UART3 and ESP32 on UART1</title>
+              <!-- FC -->
+              <rect class="box" x="230" y="30" width="190" height="262" rx="6"/>
+              <text x="244" y="54" class="ttl">Flight controller</text>
+              <text x="244" y="72" class="s11 mut">SpeedyBee F405 V4</text>
+              <text x="410" y="94" text-anchor="end" class="s11 mut">UART3</text>
+              <text x="410" y="114" text-anchor="end" class="s12">5V</text>
+              <text x="410" y="134" text-anchor="end" class="s12">G</text>
+              <text x="410" y="154" text-anchor="end" class="s12">T3</text>
+              <text x="410" y="174" text-anchor="end" class="s12">R3</text>
+              <text x="410" y="196" text-anchor="end" class="s11 mut">UART1 · bottom edge</text>
+              <text x="410" y="214" text-anchor="end" class="s12">5V</text>
+              <text x="410" y="234" text-anchor="end" class="s12">G</text>
+              <text x="410" y="254" text-anchor="end" class="s12">T1</text>
+              <text x="410" y="274" text-anchor="end" class="s12">R1</text>
+              <!-- MTF-01 -->
+              <rect class="box" x="570" y="96" width="170" height="90" rx="6"/>
+              <text x="730" y="128" text-anchor="end" class="ttl">MTF-01</text>
+              <text x="730" y="146" text-anchor="end" class="s11 mut">flow + ToF</text>
+              <text x="580" y="114" class="s12">5V</text>
+              <text x="580" y="134" class="s12">GND</text>
+              <text x="580" y="154" class="s12">RX</text>
+              <text x="580" y="174" class="s12">TX</text>
+              <!-- ESP32 -->
+              <rect class="box" x="570" y="196" width="170" height="90" rx="6"/>
+              <text x="730" y="228" text-anchor="end" class="ttl">ESP32</text>
+              <text x="730" y="246" text-anchor="end" class="s11 mut">DroneBridge</text>
+              <text x="580" y="214" class="s12">5V</text>
+              <text x="580" y="234" class="s12">GND</text>
+              <text x="580" y="254" class="s12">RX · GPIO27</text>
+              <text x="580" y="274" class="s12">TX · GPIO32</text>
+              <!-- wires FC to peripherals -->
+              <line class="wPwr" x1="420" y1="110" x2="570" y2="110"/>
+              <line class="wGnd" x1="420" y1="130" x2="570" y2="130"/>
+              <line class="wA" x1="420" y1="150" x2="570" y2="150"/>
+              <line class="wB" x1="420" y1="170" x2="570" y2="170"/>
+              <line class="wPwr" x1="420" y1="210" x2="570" y2="210"/>
+              <line class="wGnd" x1="420" y1="230" x2="570" y2="230"/>
+              <line class="wA" x1="420" y1="250" x2="570" y2="250"/>
+              <line class="wB" x1="420" y1="270" x2="570" y2="270"/>
+              <g class="dot"><circle cx="420" cy="110" r="3.5"/><circle cx="420" cy="130" r="3.5"/><circle cx="420" cy="150" r="3.5"/><circle cx="420" cy="170" r="3.5"/><circle cx="420" cy="210" r="3.5"/><circle cx="420" cy="230" r="3.5"/><circle cx="420" cy="250" r="3.5"/><circle cx="420" cy="270" r="3.5"/></g>
+              <!-- 8-pin bus -->
+              <line class="wBus" x1="312" y1="292" x2="312" y2="332"/>
+              <line class="wBus" x1="320" y1="292" x2="320" y2="332"/>
+              <line class="wBus" x1="328" y1="292" x2="328" y2="332"/>
+              <text x="340" y="316" class="s11 mut">SH1.0 8-pin · 25 mm</text>
+              <!-- ESC -->
+              <rect class="box" x="230" y="332" width="190" height="90" rx="6"/>
+              <text x="410" y="356" text-anchor="end" class="ttl">ESC</text>
+              <text x="410" y="374" text-anchor="end" class="s11 mut">BLS 60A · BLHeli_S</text>
+              <text x="240" y="381" class="s12">BAT+</text>
+              <text x="240" y="406" class="s12">BAT−</text>
+              <!-- motors -->
+              <line class="wBus" x1="420" y1="395" x2="570" y2="395"/>
+              <line class="wBus" x1="420" y1="402" x2="570" y2="402"/>
+              <line class="wBus" x1="420" y1="409" x2="570" y2="409"/>
+              <rect class="box" x="570" y="372" width="170" height="54" rx="6"/>
+              <text x="582" y="395" class="s12">Motors M1–M4</text>
+              <text x="582" y="413" class="s11 mut">3 wires each, any order</text>
+              <!-- battery -->
+              <rect class="box" x="20" y="342" width="122" height="74" rx="6"/>
+              <text x="32" y="368" class="ttl">3S LiPo</text>
+              <text x="32" y="388" class="s11 mut">450 mAh · XT30</text>
+              <line class="wPwr" x1="142" y1="377" x2="230" y2="377"/>
+              <line class="wGnd" x1="142" y1="402" x2="230" y2="402"/>
+              <!-- capacitor -->
+              <line class="wPwr" x1="196" y1="377" x2="196" y2="385"/>
+              <line class="wPwr" x1="187" y1="385" x2="205" y2="385"/>
+              <path class="wGnd" d="M187 394 Q196 389 205 394"/>
+              <line class="wGnd" x1="196" y1="392" x2="196" y2="402"/>
+              <text x="210" y="390" class="s11 mut">+</text>
+              <text x="150" y="370" class="s11 mut">XT30</text>
+              <text x="196" y="436" text-anchor="middle" class="s11 mut">C: 1000 µF 35 V on BAT pads</text>
+            </svg>
+            </div>
+            <div class="legend">
+              <span><i style="background:var(--pwr)"></i>power (BAT+, 5V)</span>
+              <span><i style="background:var(--gnd)"></i>ground</span>
+              <span><i style="background:var(--sigA)"></i>FC transmits (T) → device RX</span>
+              <span><i style="background:var(--sigB)"></i>device TX → FC receives (R)</span>
+            </div>
+            <figcaption><b>Wiring.</b> TX always crosses to RX. ESP32 GPIOs 27 and 32 are set in DroneBridge's settings page.</figcaption>
+          </figure>
+        </div>
+
+        <h3 style="font-size:18px;margin:26px 0 10px">Check these before you solder</h3>
+        <ul class="open">
+          <li><b>ESP32 size</b><span>The rear cradle assumes the official DevKitC, 54.4 × 27.9 mm. A clone board can differ, so measure yours.</span></li>
+          <li><b>Prop fit</b><span>Motor shaft diameter against the prop bore. Listings for the 1404 disagree (1.5 mm and 2 mm).</span></li>
+          <li><b>Stack bolts</b><span>Whether SpeedyBee's M3×30 bolts are long enough to hold the top deck too. If not, use ~35 mm bolts or M3 standoffs.</span></li>
+        </ul>
+      </section>
+
+      <!-- STEPS -->
+      <section id="s1" data-step="1" data-title="Parts and tools">
+        <div class="sec-h"><span class="num">01</span><h2>Lay out parts and tools</h2><span class="where">bench</span></div>
+        <div class="body">
+          <div class="kit">
+            <span>Temperature-controlled iron</span><span>Solder 0.6–0.8 mm + flux</span><span>Multimeter with beep</span><span>Hex drivers for M2 and M3</span><span>2.2 and 3.2 mm drill bits + pin vice</span><span>Heat-shrink</span><span>Small zip ties</span><span>Medium threadlocker</span><span>Scale, 0.1 g</span><span>Smoke stopper or current-limited bench PSU</span><span>Magnifier</span>
+          </div>
+          <ul class="check">
+            <li><label><input type="checkbox" id="c1-1"><span>Plug the FC into USB once, before any soldering. It should light up and show as a USB device.<small>It ships running Betaflight. Proving it works now saves a lot of doubt later.</small></span></label></li>
+            <li><label><input type="checkbox" id="c1-2"><span>Flash DroneBridge onto the ESP32 and join its WiFi from the laptop.<small>Much easier now than once it is cable-tied into the frame. Write down the TX/RX GPIOs and baud from its settings page.</small></span></label></li>
+            <li><label><input type="checkbox" id="c1-3"><span>Count the SpeedyBee bag: 8-pin cables (25 mm and 75 mm), two grommet sizes, 5 nylon nuts, 5 M3×30 bolts, 1000 µF capacitor.</span></label></li>
+            <li><label><input type="checkbox" id="c1-4"><span>Weigh each part and enter it in the <a href="#weights">weight log</a>.</span></label></li>
+          </ul>
+          <div class="note tip"><b class="tag">No battery needed yet</b>Steps 1–11 run on USB or the bench PSU. You only need a charged pack for the weight and balance check in step 12.</div>
+        </div>
+      </section>
+
+      <section id="s2" data-step="2" data-title="Prepare the frame">
+        <div class="sec-h"><span class="num">02</span><h2>Prepare the printed frame</h2><span class="where">frame</span></div>
+        <div class="body">
+          <div class="render">
+            <img src="remix_top.png" alt="Top view render of the Synthara remix frame with prop guards, MTF-01 pod at the front and ESP32 cradle at the rear" width="1210" height="1100">
+            <p>Front is the MTF-01 pod side; the ESP32 cradle is at the rear. Everything in this guide uses that convention, and the FC arrow and top-deck arrow both point to the front.</p>
+          </div>
+          <ul class="check">
+            <li><label><input type="checkbox" id="c2-1"><span>Remove all supports. Check the four motor seats are flat; each is Ø22 mm so the 19.3 mm bell can't rub.</span></label></li>
+            <li><label><input type="checkbox" id="c2-2"><span>Weigh the frame and top deck.<small>Expect at most 52.5 g and 5.5 g. Those figures assume solid PLA, so PETG at normal infill should come in lighter.</small></span></label></li>
+            <li><label><input type="checkbox" id="c2-3"><span>Clear the holes by hand in a pin vice: 2.2 mm for the M2 holes (motors, MTF-01 tabs), 3.2 mm for the M3 holes (stack, top deck).<small>A power drill grabs thin PETG and can split a pad.</small></span></label></li>
+            <li><label><input type="checkbox" id="c2-4"><span>Dry-fit the stack bolts through the 30.5 mm pattern and check the ESC sits inside its 48 × 47 mm bay.</span></label></li>
+            <li><label><input type="checkbox" id="c2-5"><span>Dry-fit the ESP32 in the rear cradle and the MTF-01 in the front pod.</span></label></li>
+            <li><label><input type="checkbox" id="c2-6"><span>Mark FRONT on the frame underside with a marker.</span></label></li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="s3" data-step="3" data-title="Mount the motors">
+        <div class="sec-h"><span class="num">03</span><h2>Mount the motors</h2><span class="where">arms</span></div>
+        <div class="body">
+          <p>All four motors are the same, so any motor can go on any arm. Spin direction is set later, in step 11.</p>
+          <ul class="check">
+            <li><label><input type="checkbox" id="c3-1"><span>Seat each motor on its pad with the wires pointing inward along the arm, toward the stack.</span></label></li>
+            <li><label><input type="checkbox" id="c3-2"><span>Fix each motor with M2×6 screws from below, on the Ø9 mm circle.<small>The pad is 3 mm thick, so 3 mm of thread goes into the motor. Turn the first screw in by hand. If it stops before the motor clamps, or you feel it touch something, use M2×5. A screw that reaches the windings shorts the motor.</small></span></label></li>
+            <li><label><input type="checkbox" id="c3-3"><span>Threadlocker: a tiny dot on the screw tip only.<small>Keep it off the printed pad. Many threadlockers crack PETG and polycarbonate.</small></span></label></li>
+            <li><label><input type="checkbox" id="c3-4"><span>Spin each bell by hand. It should turn freely with no scraping.</span></label></li>
+            <li><label><input type="checkbox" id="c3-5"><span>Leave the motor wires full length for now. You cut them in step 5.</span></label></li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="s4" data-step="4" data-title="ESC power lead">
+        <div class="sec-h"><span class="num">04</span><h2>Power lead and capacitor on the ESC</h2><span class="where">ESC, off the frame</span></div>
+        <div class="body">
+          <p>Do this on the bench with the ESC loose. The big battery pads need the most heat, and it's easier without the frame in the way.</p>
+          <ul class="check">
+            <li><label><input type="checkbox" id="c4-1"><span>Decide the orientation: <span class="pad">BAT+</span>/<span class="pad">BAT−</span> pads (the ESC's tail) face the <b>rear</b>.<small>That puts M1 rear-right, M2 front-right, M3 rear-left, M4 front-left, matching the motor map.</small></span></label></li>
+            <li><label><input type="checkbox" id="c4-2"><span>Use an XT30 pigtail, not the supplied XT60 cable.<small>The XT60 is heavier and won't mate with a 450 mAh pack. Measure the lead on the frame so the plug reaches the rear slot in the top deck.</small></span></label></li>
+            <li><label><input type="checkbox" id="c4-3"><span>Tin both pads, then solder red to <span class="pad p">BAT+</span> and black to <span class="pad">BAT−</span>. Use a hotter iron and plenty of flux for the big pads.</span></label></li>
+            <li><label><input type="checkbox" id="c4-4"><span>Fit the 35 V 1000 µF capacitor in the pin holes at the tail. Its stripe side (−) goes to <span class="pad">BAT−</span>, the long leg (+) to <span class="pad p">BAT+</span>.<small>Keep the leads short. Bend it flat, cover it in heat-shrink and keep it inside the frame outline.</small></span></label></li>
+            <li><label><input type="checkbox" id="c4-5"><span>Meter check on the XT30 plug: the pin marked + reads continuity to <span class="pad p">BAT+</span>, and + to − is not a dead short.<small>A short beep that stops is normal; that's the capacitor charging from the meter.</small></span></label></li>
+          </ul>
+          <div class="note stop"><b class="tag">Polarity</b>A reversed capacitor or XT30 will destroy the ESC on first power-up. Check twice before moving on.</div>
+        </div>
+      </section>
+
+      <section id="s5" data-step="5" data-title="Motor wires">
+        <div class="sec-h"><span class="num">05</span><h2>Motor wires to the ESC</h2><span class="where">ESC on the frame</span></div>
+        <div class="body">
+          <ul class="check">
+            <li><label><input type="checkbox" id="c5-1"><span>Set the ESC loosely in place on the stack bolts, tail to the rear, to measure the wires.</span></label></li>
+            <li><label><input type="checkbox" id="c5-2"><span>Match the pads to the arms:<small><span class="pad">M1</span> lower-right → rear-right · <span class="pad">M2</span> upper-right → front-right · <span class="pad">M3</span> lower-left → rear-left · <span class="pad">M4</span> upper-left → front-left. "Lower" is the tail end.</small></span></label></li>
+            <li><label><input type="checkbox" id="c5-3"><span>Cut each motor's wires to reach its pads with about 5 mm of slack. Strip about 1.5 mm and tin them.</span></label></li>
+            <li><label><input type="checkbox" id="c5-4"><span>Solder the three wires to that motor's three pads. Order within the three doesn't matter.</span></label></li>
+            <li><label><input type="checkbox" id="c5-5"><span>Inspect every joint under a magnifier: shiny, no bridges between neighbouring pads, no stray strands.</span></label></li>
+            <li><label><input type="checkbox" id="c5-6"><span>Run each wire set along its arm and hold it with a small zip tie, clear of the prop disc.</span></label></li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="s6" data-step="6" data-title="Build the stack">
+        <div class="sec-h"><span class="num">06</span><h2>Stack the ESC and flight controller</h2><span class="where">centre</span></div>
+        <div class="body">
+          <p>Bottom to top: M3 bolts up through the stack plate → ESC on its grommets → FC on its grommets → nylon nuts. Compare with the stack drawing in the SpeedyBee manual before tightening.</p>
+          <ul class="check">
+            <li><label><input type="checkbox" id="c6-1"><span>Fit the grommets: M3×8.1 mm in the ESC, M3×8 mm in the FC. Don't mix them up.</span></label></li>
+            <li><label><input type="checkbox" id="c6-2"><span>Push the bolts up from under the stack plate and lower the ESC on, tail to the rear.</span></label></li>
+            <li><label><input type="checkbox" id="c6-3"><span>Connect the ESC to the FC with the <b>25 mm</b> 8-pin SH1.0 cable.<small>The FC's socket is on its <b>underside</b> (the SD-card side), along the edge its arrow points to. The ESC's socket is on its top, at the opposite end from the BAT pads. With the arrow forward and the BAT pads at the rear, both sockets sit at the front and line up. Plug the ESC end first, then the FC end with the FC upside down in your hand, then flip it onto the bolts. The 75 mm cable is for builds with the ESC tail at the front, which this isn't.</small></span></label></li>
+            <li><label><input type="checkbox" id="c6-4"><span>Lower the FC on with its arrow pointing to the front (the MTF-01 pod).</span></label></li>
+            <li><label><input type="checkbox" id="c6-5"><span>Run the nylon nuts down until the grommets just start to compress. Squashed grommets stop isolating vibration.</span></label></li>
+            <li><label><input type="checkbox" id="c6-6"><span>Check the USB port is reachable from the side and doesn't touch the ESC.<small>If it does, the SpeedyBee manual says to swap the grommets around to change the gap.</small></span></label></li>
+          </ul>
+          <div class="note verify"><b class="tag">Check</b>The supplied bolts are 30 mm. The top deck also mounts on these bolts in step 9, so measure what's left above the FC nuts now. If it's too short, swap to ~35 mm bolts or M3 standoffs.</div>
+        </div>
+      </section>
+
+      <section id="s7" data-step="7" data-title="MTF-01 sensor">
+        <div class="sec-h"><span class="num">07</span><h2>Fit the MTF-01 flow sensor</h2><span class="where">front pod</span></div>
+        <div class="body">
+          <ul class="check">
+            <li><label><input type="checkbox" id="c7-1"><span>Lens faces down through the window in the pod. With the drone on a flat floor, the sensor face sits about 3 mm up.</span></label></li>
+            <li><label><input type="checkbox" id="c7-2"><span>Fix it with four M2 button-head screws from below, heads sitting in the Ø4 mm counterbores, nuts on top.<small>The zip-tie slots are a backup if the hole pattern on your sensor doesn't match.</small></span></label></li>
+            <li><label><input type="checkbox" id="c7-3"><span>Plug the MTF-01's own cable into the sensor and solder only its free end to UART3: sensor 5V → <span class="pad p">5V</span>, GND → <span class="pad">G</span>, sensor TX → <span class="pad r">R3</span>, sensor RX → <span class="pad t">T3</span>.<small>With the chips facing you and the plug at the bottom, the pins run GND, 5V, RX, TX from left to right (ArduPilot's MTF-01 wiring diagram). Identify wires by position, not colour. Use the 5V and G next to R3/T3 at the top-left; never BAT, 9V or 3V3. If the cable has a plug on both ends, cut off the end that doesn't go into the sensor, leaving enough slack to unplug the sensor later.</small></span></label></li>
+            <li><label><input type="checkbox" id="c7-4"><span>Leave the lens protection film on until step 12.</span></label></li>
+            <li><label><input type="checkbox" id="c7-5"><span>In ArduPilot: <code>SERIAL3_PROTOCOL = 1</code>, <code>SERIAL3_BAUD = 115</code>, <code>MAV2_OPTIONS = 2</code>, <code>FLOW_TYPE = 5</code>, <code>RNGFND1_TYPE = 10</code>, then after a reboot <code>RNGFND1_ORIENT = 25</code>, <code>RNGFND1_MAX = 8</code>, <code>RNGFND1_MIN = 0.01</code>.<small>On 4.7.2 leave <code>SERIAL3_OPTIONS</code> at 0; its "don't forward" bit is rejected there and <code>MAV2_OPTIONS</code> does that job. These only exist on the custom firmware (see step 10).</small></span></label></li>
+          </ul>
+          <div class="note verify"><b class="tag">Check before soldering</b>Confirm the MTF-01 cable's pin order on the MicoAir label or datasheet. Its output protocol and the ArduPilot settings for it come from ArduPilot's MTF-01 page; set those during configuration, not now.</div>
+        </div>
+      </section>
+
+      <section id="s8" data-step="8" data-title="ESP32 bridge">
+        <div class="sec-h"><span class="num">08</span><h2>Wire and fit the ESP32 bridge</h2><span class="where">rear cradle</span></div>
+        <div class="body">
+          <ul class="check">
+            <li><label><input type="checkbox" id="c8-0"><span>In DroneBridge's settings page (192.168.2.1, WiFi password <code>dronebridge</code>), set UART TX GPIO 32, RX GPIO 27, RTS/CTS 0, baud 115200, telemetry protocol MAVLink. Leave it in access-point mode.<small>Avoid GPIO 0, 1, 2, 3, 5, 6–11, 12, 15, 16, 17 and 34–39; DroneBridge's docs reserve them on the classic ESP32. On this build GPIO 25 and 26 ended up bridged, so they are not used. If you lose the settings page, erasing the ESP32's settings area (esptool erase-region 0x9000 0x6000) brings back the default network.</small></span></label></li>
+            <li><label><input type="checkbox" id="c8-1"><span>Wire it to UART1, on the FC's bottom edge: <span class="pad p">5V</span> → ESP32 5V/VIN, <span class="pad">G</span> → GND, <span class="pad t">T1</span> → GPIO27 (ESP32 RX), <span class="pad r">R1</span> → GPIO32 (ESP32 TX).<small>T1 and R1 sit in the row <span class="pad">9V</span> <span class="pad">G</span> <span class="pad">VTX</span> <span class="pad t">T1</span> <span class="pad r">R1</span> <span class="pad">SBUS</span>. SBUS is right next to R1 and 9V is two pads from T1, so check each joint touches only its own pad. Leave the DJI connector empty; it shares UART1. Take 5V from the row above (SDA · SCL · 5V · G · LED · 5V · BAT · G · 5V), not 4V5, and check the label, since BAT sits between a 5V and a G. UART6 (T6/R6) was tried first and abandoned after unreliable joints.</small></span></label></li>
+            <li><label><input type="checkbox" id="c8-2"><span>Solder the wires to the header pins rather than using push-on jumpers, which shake loose in flight.</span></label></li>
+            <li><label><input type="checkbox" id="c8-3"><span>Seat the board on the four posts so its pins stay off the frame, then zip-tie it over the crossbars.<small>Keep its header pins clear of the FC's pad edge. A pin touching a UART pad shorts the signal.</small></span></label></li>
+            <li><label><input type="checkbox" id="c8-4"><span>Point the antenna end out of the rear of the cradle, away from the battery leads.</span></label></li>
+          </ul>
+          <div class="note stop"><b class="tag">Two 5 V sources</b>Don't plug the ESP32's USB into the laptop while the drone battery is connected. The FC's 5 V and the USB 5 V would both feed the same rail.</div>
+          <div class="note tip"><b class="tag">In ArduPilot</b><code>SERIAL1_PROTOCOL = 2</code> (MAVLink 2), <code>SERIAL1_BAUD = 115</code>, <code>SERIAL6_PROTOCOL = -1</code>. Connect over <code>tcp:192.168.2.1:5760</code>, and check both directions with <code>python tools/link_check.py</code> in the nlp_drone project. It should report the heartbeat and an answered request.</div>
+        </div>
+      </section>
+
+      <section id="s9" data-step="9" data-title="Top deck and tidy">
+        <div class="sec-h"><span class="num">09</span><h2>Top deck and cable tidy</h2><span class="where">top</span></div>
+        <div class="body">
+          <ul class="check">
+            <li><label><input type="checkbox" id="c9-1"><span>Fit the top deck on the stack bolts with its FRONT arrow matching the FC arrow. Leave at least 3 mm above the FC's tallest part.</span></label></li>
+            <li><label><input type="checkbox" id="c9-2"><span>Thread a 15–20 mm battery strap through the two slots.</span></label></li>
+            <li><label><input type="checkbox" id="c9-3"><span>Pass the XT30 lead out through the rear slot.</span></label></li>
+            <li><label><input type="checkbox" id="c9-4"><span>Spin every motor by hand and look along each arm. No wire, zip-tie tail or capacitor lead may reach into a prop disc.</span></label></li>
+            <li><label><input type="checkbox" id="c9-5"><span>Trim zip-tie tails flush.</span></label></li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="s10" data-step="10" data-title="Power-up checks">
+        <div class="sec-h"><span class="num">10</span><h2>Power-up checks, no props</h2><span class="where">bench PSU</span></div>
+        <div class="body">
+          <ul class="check">
+            <li><label><input type="checkbox" id="c10-1"><span>Props are off. Confirm it.</span></label></li>
+            <li><label><input type="checkbox" id="c10-2"><span>Meter: <span class="pad p">BAT+</span> to <span class="pad">BAT−</span> is not a dead short, and FC <span class="pad p">5V</span> to <span class="pad">G</span> is not a dead short.</span></label></li>
+            <li><label><input type="checkbox" id="c10-3"><span>First power through a smoke stopper, or the bench PSU at 11.1–12 V with a 0.5 A limit.<small>If it hits the current limit straight away, disconnect and find the short before anything else.</small></span></label></li>
+            <li><label><input type="checkbox" id="c10-4"><span>Look for: FC LEDs on, ESC start-up tones, MTF-01 LED, DroneBridge WiFi network visible.</span></label></li>
+            <li><label><input type="checkbox" id="c10-5"><span>Measure about 5 V on the FC's 5V pad.</span></label></li>
+            <li><label><input type="checkbox" id="c10-6"><span>Work through stages 3–6 of your bench-test plan: ArduPilot firmware, heartbeat over the DroneBridge link, sensor readings.</span></label></li>
+          </ul>
+          <div class="note stop"><b class="tag">Custom firmware</b>The standard ArduPilot download for <code>speedybeef4v4</code> leaves out optical flow and the MAVLink rangefinder, so the MTF-01 does nothing on it. Build Copter 4.7.2 at custom.ardupilot.org with <code>OPTICALFLOW</code>, <code>OPTICALFLOW_MAV</code> and <code>RANGEFINDER_MAVLINK</code> added, and use a custom build for every future update. The first flash from Betaflight needs DFU mode: type <code>bl</code> in Betaflight's CLI, then write the <code>_with_bl.hex</code> with STM32CubeProgrammer. Later updates load the <code>.apj</code>.</div>
+        </div>
+      </section>
+
+      <section id="s11" data-step="11" data-title="Motor order and direction">
+        <div class="sec-h"><span class="num">11</span><h2>Motor order and direction</h2><span class="where">props off</span></div>
+        <div class="body">
+          <div class="note tip"><b class="tag">Before ArduPilot</b>While the FC still runs Betaflight, you can do the same check in Betaflight's Motors tab at app.betaflight.com (Chrome or Edge, not Safari). Battery or bench power must be connected; USB alone won't spin the motors. Its "accelerometer not calibrated" warning doesn't stop the motor test. Betaflight's motors 1–4 are the same corners as M1–M4 here.</div>
+          <ul class="check">
+            <li><label><input type="checkbox" id="c11-1"><span>Set <code>FRAME_CLASS = 1</code> (Quad), <code>FRAME_TYPE = 12</code> (BetaFlightX) and <code>MOT_PWM_TYPE = 5</code> (DShot300), then reboot.<small>With DShot600 (6) some motors spun up on their own as soon as the battery went in. DShot300 fixed it.</small></span></label></li>
+            <li><label><input type="checkbox" id="c11-2"><span>Stick a small tape flag on each bell so you can see which way it turns.</span></label></li>
+            <li><label><input type="checkbox" id="c11-3"><span>Run the motor test one motor at a time at about 5%.<small>A front-right · B rear-right · C rear-left · D front-left. A wrong motor spinning means a wire set is on the wrong pads. Never use QGroundControl's all-motors slider: it keeps re-sending while dragged, and the motors ran until the battery was pulled.</small></span></label></li>
+            <li><label><input type="checkbox" id="c11-4"><span>Check direction from above: M1 rear-right CW, M2 front-right CCW, M3 rear-left CCW, M4 front-left CW.</span></label></li>
+            <li><label><input type="checkbox" id="c11-5"><span>Fix any motor that turns the wrong way.<small>Either reverse it at esc-configurator.com (BLHeli_S J-H-50; easiest while the FC still runs Betaflight), or swap any two of its three wires at the pads.</small></span></label></li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="s12" data-step="12" data-title="Props, weight, balance">
+        <div class="sec-h"><span class="num">12</span><h2>Props, weight and balance</h2><span class="where">ready for T6</span></div>
+        <div class="body">
+          <ul class="check">
+            <li><label><input type="checkbox" id="c12-1"><span>Check the prop bore fits the motor shaft snugly. A loose prop can come off in flight.</span></label></li>
+            <li><label><input type="checkbox" id="c12-2"><span>Fit CW props on M1 (rear-right) and M4 (front-left), CCW props on M2 (front-right) and M3 (rear-left).<small>The raised leading edge of each blade should lead in the direction the motor turns.</small></span></label></li>
+            <li><label><input type="checkbox" id="c12-3"><span>Weigh the complete drone with battery. It must be under 250 g; the budget says about 203 g. Log it below.</span></label></li>
+            <li><label><input type="checkbox" id="c12-4"><span>Balance it on two fingertips under the arms at the frame centre. The balance point should be within 5 mm of centre.<small>Expect it a little tail-heavy, since the ESP32 outweighs the MTF-01. Slide the battery about 12 mm forward to fix it.</small></span></label></li>
+            <li><label><input type="checkbox" id="c12-5"><span>Measure the MTF-01 lens position from the balance point and set <code>FLOW_POS_X</code>; the CAD gives about 0.041 m.</span></label></li>
+            <li><label><input type="checkbox" id="c12-6"><span>Peel the MTF-01 lens film.</span></label></li>
+          </ul>
+          <div class="note tip"><b class="tag">Next</b>T6 tethered hover, in the area and with the controls set out in your risk assessment.</div>
+        </div>
+      </section>
+
+      <!-- WEIGHTS -->
+      <section id="weights">
+        <div class="sec-h"><span class="num">g</span><h2>Weight log</h2><span class="where">limit 250 g</span></div>
+        <div class="body" style="max-width:none">
+          <p>Estimates come from the parts list and CAD. Type your scale readings into the right column; the total uses your reading wherever you've entered one.</p>
+          <div class="tbl">
+            <table>
+              <thead><tr><th>Part</th><th class="g">Estimate</th><th class="g">Measured</th></tr></thead>
+              <tbody id="wRows"></tbody>
+              <tfoot>
+                <tr><td>All-up weight <span id="wNote" style="font-weight:400;color:var(--muted);font-size:13px"></span></td><td class="g" id="wEst"></td><td class="g" id="wTot"></td></tr>
+                <tr><td colspan="3"><span class="verdict" id="wVerdict"></span></td></tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <footer>Built from the SpeedyBee F405 V4 stack manual, the Synthara remix CAD and your bench-test plan. Items marked "Check" are not confirmed for your exact parts. Read the label or datasheet before you solder.</footer>
+    </main>
+  </div>
+</div>
+
+<script>
+(function(){
+  var KEY = "synthara-build-v1";
+  var state = {checks:{}, weights:{}};
+  try { var s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s) { state.checks = s.checks || {}; state.weights = s.weights || {}; } } catch(e) {}
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {} }
+
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.check input[type=checkbox]'));
+  boxes.forEach(function(b){
+    b.checked = !!state.checks[b.id];
+    b.addEventListener('change', function(){ state.checks[b.id] = b.checked; save(); refresh(); });
+  });
+
+  // step rail
+  var rail = document.getElementById('rail');
+  var steps = Array.prototype.slice.call(document.querySelectorAll('section[data-step]'));
+  steps.forEach(function(sec){
+    var li = document.createElement('li');
+    var n = sec.dataset.step;
+    li.innerHTML = '<a href="#' + sec.id + '"><span class="n">' + (n.length < 2 ? '0' + n : n) + '</span><span>' + sec.dataset.title + '</span><span class="c"></span></a>';
+    rail.appendChild(li);
+  });
+  var wl = document.createElement('li');
+  wl.innerHTML = '<a href="#weights"><span class="n">g</span><span>Weight log</span><span></span></a>';
+  rail.appendChild(wl);
+
+  function refresh(){
+    var done = boxes.filter(function(b){ return b.checked; }).length;
+    document.getElementById('barFill').style.width = (boxes.length ? 100 * done / boxes.length : 0) + '%';
+    document.getElementById('progText').textContent = done + ' / ' + boxes.length + ' done';
+    steps.forEach(function(sec, i){
+      var bs = sec.querySelectorAll('.check input');
+      var d = 0; bs.forEach(function(b){ if (b.checked) d++; });
+      var a = rail.querySelectorAll('a')[i + 1];
+      a.querySelector('.c').textContent = d + '/' + bs.length;
+      a.classList.toggle('done', d === bs.length);
+    });
+  }
+
+  // reset with in-page confirmation
+  var rb = document.getElementById('resetBtn'), armT;
+  rb.addEventListener('click', function(){
+    if (!rb.classList.contains('armed')) {
+      rb.classList.add('armed'); rb.textContent = 'Tap again to clear';
+      armT = setTimeout(function(){ rb.classList.remove('armed'); rb.textContent = 'Clear ticks'; }, 3000);
+      return;
+    }
+    clearTimeout(armT);
+    state.checks = {}; boxes.forEach(function(b){ b.checked = false; }); save(); refresh();
+    rb.classList.remove('armed'); rb.textContent = 'Ticks cleared';
+    setTimeout(function(){ rb.textContent = 'Clear ticks'; }, 1500);
+  });
+
+  // weight log
+  var parts = [
+    ['frame','Frame with guards (PETG)',52.5],
+    ['deck','Top deck',5.5],
+    ['motors','Motors ×4',40.0],
+    ['props','Props ×4',4.7],
+    ['stack','FC + ESC stack',34.0],
+    ['esp','ESP32 DevKitC',9.6],
+    ['mtf','MTF-01',4.5],
+    ['wire','XT30 lead, capacitor, wiring, heat-shrink',5.0],
+    ['fast','Screws, nuts, strap, zip ties',6.0],
+    ['batt','3S 450 mAh LiPo',41.0]
+  ];
+  var tb = document.getElementById('wRows');
+  parts.forEach(function(p){
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td>' + p[1] + '</td><td class="g">' + p[2].toFixed(1) + ' g</td>' +
+      '<td class="g"><input id="w-' + p[0] + '" type="number" inputmode="decimal" step="0.1" min="0" aria-label="Measured weight of ' + p[1] + ' in grams" placeholder="—"></td>';
+    tb.appendChild(tr);
+    var inp = tr.querySelector('input');
+    if (state.weights[p[0]] != null) inp.value = state.weights[p[0]];
+    inp.addEventListener('input', function(){
+      var v = parseFloat(inp.value);
+      if (isNaN(v)) delete state.weights[p[0]]; else state.weights[p[0]] = v;
+      save(); weigh();
+    });
+  });
+  function weigh(){
+    var est = 0, tot = 0, n = 0;
+    parts.forEach(function(p){
+      est += p[2];
+      var m = state.weights[p[0]];
+      if (m != null && !isNaN(m)) { tot += m; n++; } else tot += p[2];
+    });
+    document.getElementById('wEst').textContent = est.toFixed(1) + ' g';
+    document.getElementById('wTot').textContent = tot.toFixed(1) + ' g';
+    document.getElementById('wNote').textContent = n ? '(' + n + ' of ' + parts.length + ' measured)' : '(all estimates)';
+    var v = document.getElementById('wVerdict'), margin = 250 - tot;
+    v.classList.toggle('bad', margin < 0);
+    v.textContent = margin >= 0 ? margin.toFixed(1) + ' g under the 250 g limit' : (-margin).toFixed(1) + ' g over the 250 g limit';
+  }
+
+  refresh(); weigh();
+})();
+</script>
