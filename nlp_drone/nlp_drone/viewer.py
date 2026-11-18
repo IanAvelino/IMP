@@ -48,7 +48,11 @@ class Viewer:
         while True:
             try:
                 m = mavutil.mavlink_connection(self.connection, source_system=255, source_component=191)
-                m.wait_heartbeat()
+                while True:                            # the FC's heartbeat, not DroneBridge's or a GCS's
+                    hb = m.recv_match(type="HEARTBEAT", blocking=True)
+                    if hb.autopilot != ML.MAV_AUTOPILOT_INVALID:
+                        m.target_system, m.target_component = hb.get_srcSystem(), hb.get_srcComponent()
+                        break
                 for msg_id in (ML.MAVLINK_MSG_ID_LOCAL_POSITION_NED, ML.MAVLINK_MSG_ID_ATTITUDE,
                                ML.MAVLINK_MSG_ID_GLOBAL_POSITION_INT):
                     m.mav.command_long_send(m.target_system, m.target_component,
@@ -66,7 +70,7 @@ class Viewer:
                         self._set(roll=msg.roll, pitch=msg.pitch, yaw=msg.yaw, connected=True)
                     elif t == "GLOBAL_POSITION_INT":
                         self._set(alt=msg.relative_alt / 1000.0)
-                    elif t == "HEARTBEAT" and msg.type != ML.MAV_TYPE_GCS:
+                    elif t == "HEARTBEAT" and msg.autopilot != ML.MAV_AUTOPILOT_INVALID:   # FC, not GCS/radio
                         self._set(armed=bool(msg.base_mode & ML.MAV_MODE_FLAG_SAFETY_ARMED),
                                   mode=mavutil.mode_string_v10(msg), connected=True)
                     elif t == "STATUSTEXT":

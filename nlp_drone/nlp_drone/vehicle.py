@@ -3,6 +3,7 @@
 Moves are body-relative (forward = where the nose points) and keep the current heading.
 """
 import math
+import threading
 import time
 from pymavlink import mavutil
 
@@ -13,6 +14,7 @@ POS_TOL_M = 0.10
 YAW_TOL_DEG = 3.0
 CLIMB_FRACTION = 0.95
 SETTLE_S = 1.0
+HEARTBEAT_S = 1.0       # ArduPilot's GCS failsafe (FS_GCS_ENABLE) fires when these stop for FS_GCS_TIMEOUT
 
 
 class Drone:
@@ -27,8 +29,24 @@ class Drone:
                 if time.time() > deadline:
                     raise
                 time.sleep(0.5)
-        if self.m.wait_heartbeat(timeout=connect_timeout) is None:
-            raise TimeoutError(f"no heartbeat on {connection}")
+        # Wait for the flight controller itself: over WiFi, DroneBridge also sends heartbeats (as a
+        # telemetry radio), and locking onto those would send every command to the ESP32 instead.
+        hb, deadline = None, time.time() + connect_timeout
+        while hb is None and time.time() < deadline:
+            msg = self.m.recv_match(type="HEARTBEAT", blocking=True, timeout=1)
+            if msg is not None and msg.autopilot != ML.MAV_AUTOPILOT_INVALID:
+                hb = msg
+        if hb is None:
+            raise TimeoutError(f"no flight-controller heartbeat on {connection}")
+        self.m.target_system, self.m.target_component = hb.get_srcSystem(), hb.get_srcComponent()
+        # Heartbeats go out from a background thread so the link-loss failsafe stays armed while the
+        # program waits for the next voice command; the lock stops two threads interleaving bytes.
+        tx_lock, raw_write = threading.Lock(), self.m.write
+        def locked_write(buf):
+            with tx_lock:
+                raw_write(buf)
+        self.m.write = locked_write
+        threading.Thread(target=self._heartbeats, daemon=True).start()
         self.x = self.y = self.z = self.yaw = self.rel_alt = 0.0
         self.armed, self.mode, self.last_text = False, None, ""
         for msg_id in (ML.MAVLINK_MSG_ID_LOCAL_POSITION_NED, ML.MAVLINK_MSG_ID_GLOBAL_POSITION_INT,
@@ -37,6 +55,14 @@ class Drone:
         self._update(1.0)
 
     # ---------- plumbing ----------
+    def _heartbeats(self):
+        while True:
+            try:
+                self.m.mav.heartbeat_send(ML.MAV_TYPE_GCS, ML.MAV_AUTOPILOT_INVALID, 0, 0, 0)
+            except OSError:                            # link down: keep trying, the failsafe will act
+                pass
+            time.sleep(HEARTBEAT_S)
+
     def _cmd(self, command, *p):
         p = list(p) + [0] * (7 - len(p))
         self.m.mav.command_long_send(self.m.target_system, self.m.target_component, command, 0, *p)
@@ -54,7 +80,7 @@ class Drone:
                 self.yaw = msg.yaw
             elif t == "GLOBAL_POSITION_INT":
                 self.rel_alt = msg.relative_alt / 1000.0
-            elif t == "HEARTBEAT" and msg.type != ML.MAV_TYPE_GCS:
+            elif t == "HEARTBEAT" and msg.autopilot != ML.MAV_AUTOPILOT_INVALID:   # FC only, not GCS/radio
                 self.armed = bool(msg.base_mode & ML.MAV_MODE_FLAG_SAFETY_ARMED)
                 self.mode = mavutil.mode_string_v10(msg)
             elif t == "STATUSTEXT":

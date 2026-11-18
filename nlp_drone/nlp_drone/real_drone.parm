@@ -1,0 +1,30 @@
+# Settings that make the simulator match the real drone: no RC, no compass, no GPS, position from
+# optical flow, link-loss and battery failsafes. The "real" block is what goes on the flight
+# controller; the "SITL only" block swaps the MTF-01 for ArduPilot's simulated flow + rangefinder.
+
+# --- real: no radio receiver ---
+ARMING_SKIPCHK 64
+FS_THR_ENABLE 0
+# --- real: land if the laptop's heartbeat stops for 3 s, in every mode ---
+FS_GCS_ENABLE 5
+FS_GCS_TIMEOUT 3
+FS_OPTIONS 0
+# --- real: no compass, no GPS; EKF3 position from optical flow, height from the barometer ---
+COMPASS_ENABLE 0
+GPS1_TYPE 0
+EK3_SRC1_POSXY 0
+EK3_SRC1_VELXY 5
+EK3_SRC1_POSZ 1
+EK3_SRC1_VELZ 0
+EK3_SRC1_YAW 0
+
+# --- SITL only ---
+SIM_GPS1_ENABLE 0
+SIM_TERRAIN 0
+SIM_FLOW_ENABLE 1
+FLOW_TYPE 10
+RNGFND1_TYPE 1
+RNGFND1_MIN 0
+RNGFND1_MAX 40
+RNGFND1_SCALING 12.12
+RNGFND1_PIN 0
