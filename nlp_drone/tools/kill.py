@@ -3,7 +3,7 @@
   python tools/kill.py                       # waits for Enter, then stops the motors
   python tools/kill.py tcp:<host>:<port>
 
-Prefer Ctrl+\ in the flight program itself (nlp_drone.run), which stops the motors over its own link:
+Prefer Ctrl+\\ in the flight program itself (nlp_drone.run), which stops the motors over its own link:
 a second WiFi connection like this one was dropped repeatedly while the flight program was running.
 Use this only when the flight program has died, and only when landing is not safe.
 """
